@@ -12,7 +12,9 @@ import '../sections/testimonials_section.dart';
 import '../theme/app_theme.dart';
 import '../widgets/portfolio_nav_bar.dart';
 import '../widgets/parallax_background.dart';
-import '../widgets/spidey_web_scroll_effect.dart';
+import '../widgets/spider_man_experience.dart';
+import '../widgets/spider_man_roamer.dart';
+import '../widgets/scroll_trail_effect.dart';
 import '../widgets/reveal_on_scroll.dart';
 import '../widgets/tracking_eye_widget.dart';
 
@@ -27,6 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final _scrollController = ScrollController();
   final _pointerPosition = ValueNotifier(Offset.zero);
   bool _showHireMe = false;
+  final _eyeKey = GlobalKey();
+  final _heroPhotoKey = GlobalKey();
+  final _projectImageKey = GlobalKey();
   final _sectionKeys = <String, GlobalKey>{
     'hero': GlobalKey(),
     'about': GlobalKey(),
@@ -93,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   KeyedSubtree(
                     key: _sectionKeys['hero'],
                     child: HeroSection(
+                      photoKey: _heroPhotoKey,
                       onExploreWork: () => _scrollToSection('projects'),
                       onContact: () => _scrollToSection('contact'),
                     ),
@@ -111,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   KeyedSubtree(
                     key: _sectionKeys['projects'],
-                    child: const ProjectsSection(),
+                    child: ProjectsSection(featuredImageKey: _projectImageKey),
                   ),
                   KeyedSubtree(
                     key: _sectionKeys['lifestyle'],
@@ -131,24 +137,103 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Positioned.fill(
-            child: IgnorePointer(
-              child: SpideyWebScrollEffect(
-                scrollController: _scrollController,
-                sectionNodes: [
-                  for (final entry in _sectionKeys.entries)
-                    WebSectionNode(id: entry.key, key: entry.value),
-                ],
-              ),
-            ),
-          ),
           Positioned(
             left: 16,
             bottom: 16,
-            child: TrackingEyeWidget(
-              pointerPosition: _pointerPosition,
-              pauseTracking: _showHireMe,
-              onActivated: () => setState(() => _showHireMe = true),
+            child: KeyedSubtree(
+              key: _eyeKey,
+              child: TrackingEyeWidget(
+                pointerPosition: _pointerPosition,
+                pauseTracking: _showHireMe,
+                onActivated: () => setState(() => _showHireMe = true),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: IgnorePointer(
+              child: SpiderManExperience(
+                scrollController: _scrollController,
+                paused: _showHireMe,
+                sectionNodes: [
+                  for (final entry in _sectionKeys.entries)
+                    TrailSectionNode(id: entry.key, key: entry.value),
+                ],
+                roamTargets: [
+                  SpiderRoamTarget(
+                    id: 'eye',
+                    key: _eyeKey,
+                    alignment: const Alignment(0, -0.35),
+                    weight: 3,
+                    wrapWeb: true,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'hero-photo',
+                    key: _heroPhotoKey,
+                    alignment: Alignment.topCenter,
+                    flipFromTop: true,
+                    wrapWeb: true,
+                    weight: 4,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'project-image',
+                    key: _projectImageKey,
+                    alignment: Alignment.topCenter,
+                    flipFromTop: true,
+                    wrapWeb: true,
+                    weight: 4,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'hero-title',
+                    key: _sectionKeys['hero']!,
+                    alignment: Alignment.topLeft,
+                    wrapWeb: true,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'about',
+                    key: _sectionKeys['about']!,
+                    alignment: Alignment.topCenter,
+                    wrapWeb: true,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'skills',
+                    key: _sectionKeys['skills']!,
+                    alignment: Alignment.centerLeft,
+                    wrapWeb: true,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'experience',
+                    key: _sectionKeys['experience']!,
+                    alignment: Alignment.topRight,
+                    wrapWeb: true,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'projects',
+                    key: _sectionKeys['projects']!,
+                    alignment: Alignment.topCenter,
+                    wrapWeb: true,
+                    weight: 2,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'lifestyle',
+                    key: _sectionKeys['lifestyle']!,
+                    alignment: Alignment.topLeft,
+                    wrapWeb: true,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'testimonials',
+                    key: _sectionKeys['testimonials']!,
+                    alignment: Alignment.centerRight,
+                    wrapWeb: true,
+                  ),
+                  SpiderRoamTarget(
+                    id: 'contact',
+                    key: _sectionKeys['contact']!,
+                    alignment: Alignment.topCenter,
+                    wrapWeb: true,
+                    weight: 2,
+                  ),
+                ],
+              ),
             ),
           ),
           if (_showHireMe)

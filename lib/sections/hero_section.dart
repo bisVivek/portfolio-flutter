@@ -5,10 +5,16 @@ import '../theme/app_theme.dart';
 import '../utils/url_helper.dart';
 
 class HeroSection extends StatelessWidget {
-  const HeroSection({super.key, this.onExploreWork, this.onContact});
+  const HeroSection({
+    super.key,
+    this.onExploreWork,
+    this.onContact,
+    this.photoKey,
+  });
 
   final VoidCallback? onExploreWork;
   final VoidCallback? onContact;
+  final GlobalKey? photoKey;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +38,7 @@ class HeroSection extends StatelessWidget {
                   children: [
                     Expanded(child: _HeroContent(onExploreWork: onExploreWork, onContact: onContact)),
                     const SizedBox(width: 48),
-                    Expanded(child: _HeroPhoto(isWide: true)),
+                    Expanded(child: _HeroPhoto(isWide: true, photoKey: photoKey)),
                   ],
                 )
               : Column(
@@ -40,7 +46,7 @@ class HeroSection extends StatelessWidget {
                   children: [
                     _HeroContent(onExploreWork: onExploreWork, onContact: onContact),
                     const SizedBox(height: 40),
-                    _HeroPhoto(isWide: false),
+                    _HeroPhoto(isWide: false, photoKey: photoKey),
                   ],
                 ),
         ),
@@ -97,7 +103,7 @@ class _HeroContent extends StatelessWidget {
           children: [
             FilledButton(
               onPressed: onContact ?? onExploreWork,
-              child: const Text('HIRE ME'),
+              child: const Text('CONTACT ME'),
             ),
             OutlinedButton.icon(
               onPressed: onExploreWork,
@@ -139,13 +145,15 @@ class _HeroContent extends StatelessWidget {
 }
 
 class _HeroPhoto extends StatelessWidget {
-  const _HeroPhoto({required this.isWide});
+  const _HeroPhoto({required this.isWide, this.photoKey});
 
   final bool isWide;
+  final GlobalKey? photoKey;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: photoKey,
       height: isWide ? 480 : 360,
       decoration: BoxDecoration(
         color: AppTheme.purple,

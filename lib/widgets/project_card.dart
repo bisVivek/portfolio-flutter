@@ -6,10 +6,16 @@ import '../widgets/gradient_accent_bar.dart';
 import '../widgets/hover_card.dart';
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({super.key, required this.project, this.index = 0});
+  const ProjectCard({
+    super.key,
+    required this.project,
+    this.index = 0,
+    this.imageKey,
+  });
 
   final Project project;
   final int index;
+  final GlobalKey? imageKey;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +61,7 @@ class ProjectCard extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           ClipRRect(
+            key: imageKey,
             borderRadius: BorderRadius.circular(16),
             child: project.coverImage != null
                 ? Image.asset(

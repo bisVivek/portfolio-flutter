@@ -7,7 +7,9 @@ import '../widgets/section_header.dart';
 import '../widgets/work_showcase.dart';
 
 class ProjectsSection extends StatelessWidget {
-  const ProjectsSection({super.key});
+  const ProjectsSection({super.key, this.featuredImageKey});
+
+  final GlobalKey? featuredImageKey;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class ProjectsSection extends StatelessWidget {
             child: ProjectCard(
               project: projects[entry.value],
               index: entry.value,
+              imageKey: entry.value == 0 ? featuredImageKey : null,
             ),
           );
         }).toList(),

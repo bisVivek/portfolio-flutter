@@ -113,7 +113,7 @@ class _NeonContactBtn extends StatelessWidget {
         style: FilledButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         ),
-        child: const Text('HIRE ME'),
+        child: const Text('CONTACT ME'),
       ),
     );
   }
