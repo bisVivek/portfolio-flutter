@@ -97,7 +97,7 @@ class _HeroContent extends StatelessWidget {
           children: [
             FilledButton(
               onPressed: onContact ?? onExploreWork,
-              child: const Text('HIRE ME'),
+              child: const Text('CONTACT ME'),
             ),
             OutlinedButton.icon(
               onPressed: onExploreWork,

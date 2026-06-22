@@ -75,7 +75,7 @@ const _idleMessages = [
     floatOffset: 0.2,
   ),
   _IdleBubbleConfig(
-    text: 'No cap, hire me fr 💀',
+    text: 'No cap, contact me fr 💀',
     tail: _BubbleTail.left,
     style: _CoolBubbleStyle.purple,
     left: kEyeSize + 6,
@@ -91,7 +91,7 @@ const _idleMessages = [
     floatOffset: 0.8,
   ),
   _IdleBubbleConfig(
-    text: 'Plot twist: hire me 😂',
+    text: 'Plot twist: contact me 😂',
     tail: _BubbleTail.bottom,
     style: _CoolBubbleStyle.white,
     left: 24,
@@ -123,7 +123,7 @@ const _idleMessages = [
     floatOffset: 0.35,
   ),
   _IdleBubbleConfig(
-    text: 'Skill issue? Hire me instead',
+    text: 'Skill issue? Contact me instead',
     tail: _BubbleTail.left,
     style: _CoolBubbleStyle.warning,
     left: kEyeSize + 4,
@@ -857,7 +857,7 @@ class _HireMeOverlayState extends State<HireMeOverlay>
                       _OverlayBubble(
                         isCompact: isCompact,
                         title: 'You did wrong to me.',
-                        subtitle: 'Now hire me 😊',
+                        subtitle: '',
                         style: _CoolBubbleStyle.neon,
                         large: false,
                       ),
@@ -880,7 +880,7 @@ class _HireMeOverlayState extends State<HireMeOverlay>
                           ],
                         ),
                         child: Text(
-                          'HIRE ME 😊',
+                          'CONTACT ME 😊',
                           style: TextStyle(
                             fontSize: isCompact ? 44 : 72,
                             fontWeight: FontWeight.w900,
@@ -974,18 +974,20 @@ class _OverlayBubble extends StatelessWidget {
               height: 1.2,
             ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: isCompact ? 14 : 16,
-              fontWeight: FontWeight.w700,
-              color: style == _CoolBubbleStyle.neon
-                  ? AppTheme.black.withValues(alpha: 0.65)
-                  : AppTheme.white.withValues(alpha: 0.8),
+          if (subtitle.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: isCompact ? 14 : 16,
+                fontWeight: FontWeight.w700,
+                color: style == _CoolBubbleStyle.neon
+                    ? AppTheme.black.withValues(alpha: 0.65)
+                    : AppTheme.white.withValues(alpha: 0.8),
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
