@@ -516,14 +516,18 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "CONSOLE // LOG_DIAGNOSTICS",
-                      style: GoogleFonts.shareTechMono(
-                        color: AppTheme.neon,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Text(
+                        "CONSOLE // LOG_DIAGNOSTICS",
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.shareTechMono(
+                          color: AppTheme.neon,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
+                    const SizedBox(width: 8),
                     Container(
                       width: 8,
                       height: 8,
@@ -615,14 +619,18 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "CHESS_MATRIX // DISPLAY",
-                  style: GoogleFonts.shareTechMono(
-                    color: AppTheme.purple,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    "CHESS_MATRIX // DISPLAY",
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.shareTechMono(
+                      color: AppTheme.purple,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
+                const SizedBox(width: 8),
                 Text(
                   "STOCKFISH v16.1",
                   style: GoogleFonts.shareTechMono(
