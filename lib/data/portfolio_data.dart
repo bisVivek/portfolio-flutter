@@ -28,7 +28,7 @@ class PortfolioData {
     ('3', 'Platforms'),
   ];
 
-  static const String profilePhoto = 'assets/images/img-4.jpeg';
+  static const String profilePhoto = 'assets/images/img-5.jpeg';
   static const String officePhoto = 'assets/images/img-1.jpeg';
   static const String teamPhoto = 'assets/images/img-2.jpeg';
 
@@ -79,7 +79,7 @@ class PortfolioData {
 
   static const List<MediaAsset> lifestyleMedia = [
     MediaAsset(
-      path: 'assets/images/img-4.jpeg',
+      path: 'assets/images/img-5.jpeg',
       type: MediaType.image,
       title: 'Portrait',
       subtitle: 'Flutter Developer · Dehradun',

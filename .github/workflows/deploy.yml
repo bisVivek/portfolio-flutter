@@ -33,6 +33,7 @@ jobs:
         run: flutter build web --release --base-href="/"
 
       - name: Deploy to Hostinger (FTP)
+        if: ${{ secrets.FTP_SERVER != '' }}
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
