@@ -55,66 +55,101 @@ class _AnimatedMediaCardState extends State<AnimatedMediaCard> {
               : [],
         ),
         clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildMedia(),
-            Container(
-              color: widget.dark ? const Color(0xFF111111) : AppTheme.white,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (widget.media.projectTag != null)
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.neon,
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Text(
-                        widget.media.projectTag!.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 10,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final hasHeightConstraint =
+                constraints.maxHeight != double.infinity && constraints.maxHeight > 0;
+
+            Widget mediaWidget = _buildMedia(hasHeightConstraint ? constraints.maxHeight : null);
+            if (hasHeightConstraint) {
+              mediaWidget = Expanded(child: mediaWidget);
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                mediaWidget,
+                Container(
+                  color: widget.dark ? const Color(0xFF111111) : AppTheme.white,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (widget.media.projectTag != null)
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.neon,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            widget.media.projectTag!.toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1,
+                              color: AppTheme.black,
+                            ),
+                          ),
+                        ),
+                      Text(
+                        widget.media.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
                           fontWeight: FontWeight.w800,
-                          letterSpacing: 1,
-                          color: AppTheme.black,
+                          fontSize: 16,
+                          color: titleColor,
                         ),
                       ),
-                    ),
-                  Text(
-                    widget.media.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 16,
-                      color: titleColor,
-                    ),
+                      if (widget.media.subtitle != null) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          widget.media.subtitle!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 13, color: subColor),
+                        ),
+                      ],
+                    ],
                   ),
-                  if (widget.media.subtitle != null) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      widget.media.subtitle!,
-                      style: TextStyle(fontSize: 13, color: subColor),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildMedia() {
+  Widget _buildMedia([double? maxHeight]) {
     if (widget.media.type == MediaType.video) {
+      double videoHeight = widget.tall ? 320 : 240;
+      if (maxHeight != null) {
+        // Leave room for padding & text details
+        videoHeight = (maxHeight - 110).clamp(80.0, videoHeight);
+      }
       return PortfolioVideoPlayer(
         assetPath: widget.media.path,
-        height: widget.tall ? 320 : 240,
+        height: videoHeight,
+      );
+    }
+
+    if (maxHeight != null) {
+      return SizedBox.expand(
+        child: Image.asset(
+          widget.media.path,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => Container(
+            color: AppTheme.backgroundAlt,
+            child: const Icon(Icons.broken_image_outlined),
+          ),
+        ),
       );
     }
 
