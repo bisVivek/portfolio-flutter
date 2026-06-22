@@ -12,7 +12,6 @@ import '../sections/testimonials_section.dart';
 import '../theme/app_theme.dart';
 import '../widgets/portfolio_nav_bar.dart';
 import '../widgets/parallax_background.dart';
-import '../widgets/spidey_web_scroll_effect.dart';
 import '../widgets/reveal_on_scroll.dart';
 import '../widgets/tracking_eye_widget.dart';
 
@@ -127,17 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: const ContactSection(),
                   ),
                   _Footer(),
-                ],
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: IgnorePointer(
-              child: SpideyWebScrollEffect(
-                scrollController: _scrollController,
-                sectionNodes: [
-                  for (final entry in _sectionKeys.entries)
-                    WebSectionNode(id: entry.key, key: entry.value),
                 ],
               ),
             ),
