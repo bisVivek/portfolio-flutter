@@ -322,9 +322,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   TextButton(
                     onPressed: _launchPortfolio,
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.white.withOpacity(0.5),
+                      foregroundColor: Colors.white.withValues(alpha: 0.5),
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      side: BorderSide(color: Colors.white.withOpacity(0.15)),
+                      side: BorderSide(color: Colors.white.withValues(alpha: 0.15)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
@@ -392,7 +392,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       Text(
                         _progress >= 1.0 ? "BOOT_COMPLETE: SYSTEM ENGAGED" : "INITIALIZING CORE MEMORY VECTOR...",
                         style: GoogleFonts.shareTechMono(
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withValues(alpha: 0.7),
                           fontSize: 12,
                           letterSpacing: 1.0,
                         ),
@@ -413,9 +413,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     height: 10,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.05),
+                      color: Colors.white.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.white.withOpacity(0.1)),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
                     ),
                     child: Stack(
                       children: [
@@ -431,7 +431,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppTheme.neon.withOpacity(0.3),
+                                  color: AppTheme.neon.withValues(alpha: 0.3),
                                   blurRadius: 8,
                                   spreadRadius: 1,
                                 ),
@@ -470,7 +470,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                           ),
                         )
                             .animate(onPlay: (controller) => controller.repeat())
-                            .shimmer(delay: 500.ms, duration: 1500.ms, color: Colors.white.withOpacity(0.5)),
+                            .shimmer(delay: 500.ms, duration: 1500.ms, color: Colors.white.withValues(alpha: 0.5)),
                       ),
                     ),
                   ),
@@ -488,10 +488,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       decoration: BoxDecoration(
         color: const Color(0xFF0C0C10),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppTheme.neon.withOpacity(0.2), width: 1.5),
+        border: Border.all(color: AppTheme.neon.withValues(alpha: 0.2), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.neon.withOpacity(0.02),
+            color: AppTheme.neon.withValues(alpha: 0.02),
             blurRadius: 12,
             spreadRadius: 2,
           )
@@ -563,7 +563,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         );
                       }
                       final log = _logs[index];
-                      Color logColor = Colors.white.withOpacity(0.85);
+                      Color logColor = Colors.white.withValues(alpha: 0.85);
                       if (log.startsWith("SYS_BOOT") || log.startsWith("SYSTEM")) {
                         logColor = AppTheme.neon;
                       } else if (log.startsWith("[CHESS]")) {
@@ -599,10 +599,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       decoration: BoxDecoration(
         color: const Color(0xFF0C0C10),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppTheme.purple.withOpacity(0.2), width: 1.5),
+        border: Border.all(color: AppTheme.purple.withValues(alpha: 0.2), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.purple.withOpacity(0.02),
+            color: AppTheme.purple.withValues(alpha: 0.02),
             blurRadius: 12,
             spreadRadius: 2,
           )
@@ -626,7 +626,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 Text(
                   "STOCKFISH v16.1",
                   style: GoogleFonts.shareTechMono(
-                    color: Colors.white.withOpacity(0.4),
+                    color: Colors.white.withValues(alpha: 0.4),
                     fontSize: 11,
                   ),
                 ),
@@ -639,7 +639,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   aspectRatio: 1.0,
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white.withOpacity(0.1), width: 2),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.1), width: 2),
                     ),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
@@ -661,14 +661,14 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                                                    (row == _highlightToRow && col == _highlightToCol);
 
                             Color squareColor = isDarkSquare
-                                ? Colors.white.withOpacity(0.02)
-                                : Colors.white.withOpacity(0.06);
+                                ? Colors.white.withValues(alpha: 0.02)
+                                : Colors.white.withValues(alpha: 0.06);
 
                             if (isHighlighted) {
                               // Highlight moves with gradient border or semi-transparent overlay
                               squareColor = (row == _highlightToRow && col == _highlightToCol)
-                                  ? AppTheme.neon.withOpacity(0.12)
-                                  : AppTheme.purple.withOpacity(0.12);
+                                  ? AppTheme.neon.withValues(alpha: 0.12)
+                                  : AppTheme.purple.withValues(alpha: 0.12);
                             }
 
                             return Container(
@@ -678,11 +678,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                                 border: isHighlighted
                                     ? Border.all(
                                         color: (row == _highlightToRow && col == _highlightToCol)
-                                            ? AppTheme.neon.withOpacity(0.6)
-                                            : AppTheme.purple.withOpacity(0.6),
+                                            ? AppTheme.neon.withValues(alpha: 0.6)
+                                            : AppTheme.purple.withValues(alpha: 0.6),
                                         width: 1.5,
                                       )
-                                    : Border.all(color: Colors.white.withOpacity(0.015), width: 0.5),
+                                    : Border.all(color: Colors.white.withValues(alpha: 0.015), width: 0.5),
                               ),
                               child: piece.isNotEmpty
                                   ? Text(
@@ -721,7 +721,7 @@ class _ScanlinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.15)
+      ..color = Colors.white.withValues(alpha: 0.15)
       ..strokeWidth = 1.0;
 
     for (double y = 0; y < size.height; y += 4.0) {
@@ -738,7 +738,7 @@ class _GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.2)
+      ..color = Colors.white.withValues(alpha: 0.2)
       ..strokeWidth = 0.5;
 
     const double step = 20.0;
