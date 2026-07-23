@@ -7,18 +7,22 @@ void main() {
     await tester.pumpWidget(const PortfolioApp());
     await tester.pump();
 
-    final skipButton = find.text('SKIP INTRO >|');
-    expect(skipButton, findsOneWidget);
-    await tester.tap(skipButton);
+    // Splash loading finishes in ~2.5s
+    await tester.pump(const Duration(milliseconds: 2600));
+    await tester.pump();
 
-    // Pump multiple frames to let the page transition and entrance animations complete
-    for (int i = 0; i < 30; i++) {
+    expect(find.text('ENTER PORTFOLIO'), findsOneWidget);
+    await tester.tap(find.text('ENTER PORTFOLIO'));
+
+    // Page transition + entrance animations
+    for (var i = 0; i < 30; i++) {
       await tester.pump(const Duration(milliseconds: 100));
     }
 
     expect(find.textContaining('Vivek Bisht'), findsWidgets);
     expect(find.textContaining('BUILDING APPS'), findsOneWidget);
 
+    // Dispose pending timers (eye / splash)
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
   });
