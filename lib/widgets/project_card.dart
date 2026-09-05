@@ -361,201 +361,220 @@ class ProjectCard extends StatelessWidget {
     );
   }
 
-  /// PROJECT 01: Erizo Multivendor Commerce Scene
+  /// PROJECT 01: Erizo Multivendor Commerce Scene (3-Image 3D Stack)
   Widget _buildErizoCommerceScene() {
-    final cover = project.coverImage;
-    final extras = project.additionalImages ?? [];
+    final cover = project.coverImage ?? 'assets/images/erizo_portfolio_banner.png';
+    final extras = project.additionalImages ?? [
+      'assets/images/erizo_promo.png',
+      'assets/images/erizo_web_home.png',
+    ];
+
+    return _buildThreeImageShowcase(
+      mainCover: cover,
+      extraImages: extras,
+      accentColor: _accent,
+      tagLabel: 'erizo.in Store',
+      tagIcon: Icons.shopping_basket_rounded,
+    );
+  }
+
+  /// PROJECT 02: Zofanso Food & Grocery Scene (3-Image 3D Stack)
+  Widget _buildZofansoGroceryScene() {
+    final cover = project.coverImage ?? 'assets/images/zofanso_portfolio_banner.png';
+    final extras = project.additionalImages ?? [
+      'assets/images/zofanso_play_store.png',
+      'assets/images/erizo_promo.png',
+    ];
+
+    return _buildThreeImageShowcase(
+      mainCover: cover,
+      extraImages: extras,
+      accentColor: AppTheme.neon,
+      tagLabel: '4.8★ Rating · 5K+ Downloads',
+      tagIcon: Icons.star_rounded,
+    );
+  }
+
+  /// Helper: Reusable 3-Image 3D Perspective Smartphone Stack Showcase
+  Widget _buildThreeImageShowcase({
+    required String? mainCover,
+    required List<String> extraImages,
+    required Color accentColor,
+    required String tagLabel,
+    required IconData tagIcon,
+  }) {
+    final imgLeft = extraImages.isNotEmpty ? extraImages[0] : mainCover;
+    final imgRight = extraImages.length > 1 ? extraImages[1] : (extraImages.isNotEmpty ? extraImages[0] : mainCover);
+    final imgCenter = mainCover ?? (extraImages.isNotEmpty ? extraImages[0] : null);
 
     return Stack(
       alignment: Alignment.center,
       children: [
-        // Floating UI Screenshot Fragment 1 (Left background)
-        if (extras.isNotEmpty)
+        // 1. LEFT PHONE MOCKUP (Background Left Layer, rotated -12deg)
+        if (imgLeft != null)
           Positioned(
-            left: 12,
-            top: 24,
-            child: Transform.rotate(
-              angle: -0.2,
+            left: 18,
+            top: 40,
+            child: Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001)
+                ..rotateZ(-0.16)
+                ..scale(0.85),
+              alignment: Alignment.center,
               child: Container(
-                width: 130,
-                height: 190,
+                width: 140,
+                height: 230,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white24),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.black87, blurRadius: 20),
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: accentColor.withValues(alpha: 0.5), width: 2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.7),
+                      blurRadius: 25,
+                      offset: const Offset(-8, 12),
+                    ),
+                    BoxShadow(
+                      color: accentColor.withValues(alpha: 0.2),
+                      blurRadius: 25,
+                    ),
                   ],
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: Image.asset(
-                  extras[0],
+                  imgLeft,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(color: Colors.black),
+                  errorBuilder: (_, __, ___) => _buildFallbackVisual(),
                 ),
               ),
             ),
           ),
 
-        // Floating UI Screenshot Fragment 2 (Right background)
-        if (extras.length > 1)
+        // 2. RIGHT PHONE MOCKUP (Background Right Layer, rotated +12deg)
+        if (imgRight != null)
           Positioned(
-            right: 12,
-            bottom: 24,
-            child: Transform.rotate(
-              angle: 0.2,
+            right: 18,
+            top: 40,
+            child: Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001)
+                ..rotateZ(0.16)
+                ..scale(0.85),
+              alignment: Alignment.center,
               child: Container(
-                width: 130,
-                height: 190,
+                width: 140,
+                height: 230,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white24),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.black87, blurRadius: 20),
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: accentColor.withValues(alpha: 0.5), width: 2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.7),
+                      blurRadius: 25,
+                      offset: const Offset(8, 12),
+                    ),
+                    BoxShadow(
+                      color: accentColor.withValues(alpha: 0.2),
+                      blurRadius: 25,
+                    ),
                   ],
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: Image.asset(
-                  extras[1],
+                  imgRight,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(color: Colors.black),
+                  errorBuilder: (_, __, ___) => _buildFallbackVisual(),
                 ),
               ),
             ),
           ),
 
-        // Center Hero Smartphone Object
-        Transform.rotate(
-          angle: -0.04,
-          child: Container(
-            width: 175,
-            height: 270,
+        // 3. CENTER HERO PHONE MOCKUP (Foreground Main Device Object)
+        if (imgCenter != null)
+          Container(
+            width: 165,
+            height: 265,
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: _accent, width: 3),
+              border: Border.all(color: accentColor, width: 3.5),
               boxShadow: [
                 BoxShadow(
-                  color: _accent.withValues(alpha: 0.4),
-                  blurRadius: 35,
+                  color: accentColor.withValues(alpha: 0.45),
+                  blurRadius: 40,
                   spreadRadius: 2,
                 ),
                 const BoxShadow(
                   color: Colors.black87,
-                  blurRadius: 40,
+                  blurRadius: 35,
                   offset: Offset(0, 16),
                 ),
               ],
             ),
             clipBehavior: Clip.antiAlias,
-            child: cover != null
-                ? Image.asset(
-                    cover,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.asset(
+                    imgCenter,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => _buildFallbackVisual(),
-                  )
-                : _buildFallbackVisual(),
+                  ),
+                ),
+                // Dynamic Island / Top Speaker Notch
+                Positioned(
+                  top: 8,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Container(
+                      width: 44,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
 
-        // Floating product UI tag element
+        // 4. Floating Badge Tag
         Positioned(
-          top: 30,
-          right: 30,
+          top: 18,
+          right: 18,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-              color: Colors.black87,
+              color: Colors.black.withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppTheme.purple.withValues(alpha: 0.4)),
-            ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.shopping_basket_rounded,
-                    size: 14, color: AppTheme.purple),
-                SizedBox(width: 6),
-                Text(
-                  'erizo.in Store',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// PROJECT 02: Zofanso Food & Grocery Scene
-  Widget _buildZofansoGroceryScene() {
-    final cover = project.coverImage;
-
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        // Floating Grocery / Food UI cards around phone
-        Positioned(
-          left: 16,
-          bottom: 40,
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.8),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppTheme.neon.withValues(alpha: 0.4)),
-            ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.star_rounded, size: 16, color: AppTheme.neon),
-                SizedBox(width: 6),
-                Text(
-                  '4.8★ Rating (5K+ Downloads)',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-
-        // Center Hero Phone
-        Transform.rotate(
-          angle: 0.04,
-          child: Container(
-            width: 175,
-            height: 270,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: AppTheme.neon, width: 3),
+              border: Border.all(color: accentColor.withValues(alpha: 0.5)),
               boxShadow: [
                 BoxShadow(
-                  color: AppTheme.neon.withValues(alpha: 0.35),
-                  blurRadius: 35,
-                ),
-                const BoxShadow(
-                  color: Colors.black87,
-                  blurRadius: 40,
-                  offset: Offset(0, 16),
+                  color: Colors.black.withValues(alpha: 0.4),
+                  blurRadius: 10,
                 ),
               ],
             ),
-            clipBehavior: Clip.antiAlias,
-            child: cover != null
-                ? Image.asset(
-                    cover,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _buildFallbackVisual(),
-                  )
-                : _buildFallbackVisual(),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(tagIcon, size: 13, color: accentColor),
+                const SizedBox(width: 6),
+                Text(
+                  tagLabel,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -645,6 +664,8 @@ class ProjectCard extends StatelessWidget {
 
   /// PROJECT 04: Padel Magic Wear OS Smartwatch Scene
   Widget _buildPadelSmartwatchScene() {
+    final cover = project.coverImage;
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -703,62 +724,63 @@ class ProjectCard extends StatelessWidget {
               ),
             ],
           ),
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(8),
           child: Container(
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Color(0xFF0C0C16),
             ),
             clipBehavior: Clip.antiAlias,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                if (project.coverImage != null)
-                  Image.asset(
-                    project.coverImage!,
+            child: cover != null
+                ? Image.asset(
+                    cover,
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity,
-                  ),
-                Container(
-                  color: Colors.black54,
-                  padding: const EdgeInsets.all(12),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.watch_rounded,
-                          color: Color(0xFFFF6D00), size: 38),
-                      SizedBox(height: 6),
-                      Text(
-                        'PADEL MAGIC',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 12,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                      Text(
-                        'Wear OS Tracker',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                    errorBuilder: (_, __, ___) => _buildPadelWatchFallback(),
+                  )
+                : _buildPadelWatchFallback(),
           ),
         ),
       ],
     );
   }
 
+  Widget _buildPadelWatchFallback() {
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(12),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.watch_rounded, color: Color(0xFFFF6D00), size: 38),
+          SizedBox(height: 6),
+          Text(
+            'PADEL MAGIC',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w900,
+              fontSize: 12,
+              letterSpacing: 1,
+            ),
+          ),
+          Text(
+            'Wear OS Tracker',
+            style: TextStyle(color: Colors.white70, fontSize: 10),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// PROJECT 05: Astrology Dual Phone RTC Consultation Scene
   Widget _buildAstrologyDualPhoneScene() {
+    final cover = project.coverImage ?? 'assets/images/img-3.jpeg';
+    final extra = (project.additionalImages?.isNotEmpty ?? false)
+        ? project.additionalImages![0]
+        : 'assets/images/img-4.jpeg';
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -786,7 +808,7 @@ class ProjectCard extends StatelessWidget {
           ),
         ),
 
-        // Phone 1 (Left - Consultant Phone)
+        // Phone 1 (Left - Consultant Phone Screen with Real Screenshot)
         Positioned(
           left: 24,
           child: Transform.rotate(
@@ -807,16 +829,45 @@ class ProjectCard extends StatelessWidget {
                 ],
               ),
               clipBehavior: Clip.antiAlias,
-              child: _buildRtcScreen(
-                'CONSULTANT VIDEO',
-                Icons.video_call_rounded,
-                const Color(0xFFE91E63),
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Image.asset(
+                      cover,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => _buildRtcScreen(
+                        'CONSULTANT VIDEO',
+                        Icons.video_call_rounded,
+                        const Color(0xFFE91E63),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.75),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.video_call_rounded, size: 11, color: Color(0xFFE91E63)),
+                          SizedBox(width: 4),
+                          Text('Agora RTC', style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
 
-        // Phone 2 (Right - User Phone)
+        // Phone 2 (Right - User Phone Screen with Real Screenshot)
         Positioned(
           right: 24,
           child: Transform.rotate(
@@ -837,10 +888,39 @@ class ProjectCard extends StatelessWidget {
                 ],
               ),
               clipBehavior: Clip.antiAlias,
-              child: _buildRtcScreen(
-                'CLIENT RTC AUDIO',
-                Icons.mic_rounded,
-                AppTheme.neon,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Image.asset(
+                      extra,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => _buildRtcScreen(
+                        'CLIENT RTC AUDIO',
+                        Icons.mic_rounded,
+                        AppTheme.neon,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.75),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.mic_rounded, size: 11, color: AppTheme.neon),
+                          SizedBox(width: 4),
+                          Text('Twilio Live', style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

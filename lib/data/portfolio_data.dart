@@ -55,32 +55,25 @@ class PortfolioData {
       projectTag: 'Erizo',
     ),
     MediaAsset(
-      path: 'assets/images/erizo_promo.png',
+      path: 'assets/images/screenshot_1_erizo.png',
       type: MediaType.image,
-      title: 'Erizo App',
+      title: 'Erizo Commerce',
       subtitle: 'Multivendor grocery platform',
       projectTag: 'Erizo',
     ),
     MediaAsset(
-      path: 'assets/images/erizo_play_console.png',
+      path: 'assets/images/screenshot_2_zofanso.png',
       type: MediaType.image,
-      title: 'Play Console',
-      subtitle: '3 apps in production',
-      projectTag: 'Erizo',
-    ),
-    MediaAsset(
-      path: 'assets/images/erizo_web_home.png',
-      type: MediaType.image,
-      title: 'Erizo Web',
-      subtitle: 'erizo.in storefront',
-      projectTag: 'Erizo',
-    ),
-    MediaAsset(
-      path: 'assets/images/zofanso_play_store.png',
-      type: MediaType.image,
-      title: 'Zofanso',
+      title: 'Zofanso Marketplace',
       subtitle: '4.8★ · 5K+ downloads',
       projectTag: 'Zofanso',
+    ),
+    MediaAsset(
+      path: 'assets/images/scsreenshot_2_erizo.png',
+      type: MediaType.image,
+      title: 'Erizo Delivery',
+      subtitle: 'GPS Map & Navigation app',
+      projectTag: 'Erizo Delivery',
     ),
   ];
 
@@ -221,10 +214,11 @@ class PortfolioData {
       websiteUrl: 'https://erizo.in',
       playStoreUrl:
           'https://play.google.com/store/apps/details?id=com.erizo.user',
-      coverImage: 'assets/images/erizo_promo.png',
+      coverImage: 'assets/images/erizo_project_image.jpeg',
       additionalImages: [
+        'assets/images/screenshot_1_erizo.png',
+        'assets/images/scsreenshot_2_erizo.png',
         'assets/images/erizo_web_home.png',
-        'assets/images/erizo_play_console.png',
       ],
     ),
     Project(
@@ -241,10 +235,10 @@ class PortfolioData {
       websiteUrl: 'https://zofanso.com',
       playStoreUrl:
           'https://play.google.com/store/apps/details?id=com.frantic.safemax.user',
-      coverImage: 'assets/images/zofanso_play_store.png',
+      coverImage: 'assets/images/zofanso_project_image.png',
       additionalImages: [
-        'assets/images/erizo_promo.png',
-        'assets/images/erizo_web_home.png',
+        'assets/images/screenshot_2_zofanso.png',
+        'assets/images/zofanso_portfolio_banner.png',
       ],
     ),
     Project(
@@ -260,10 +254,10 @@ class PortfolioData {
       ],
       playStoreUrl:
           'https://play.google.com/store/apps/details?id=com.erizo.delivery',
-      coverImage: 'assets/images/erizo_web_home.png',
+      coverImage: 'assets/images/erizo_Delivery_project_image.png',
       additionalImages: [
+        'assets/images/scsreenshot_2_erizo.png',
         'assets/images/erizo_play_console.png',
-        'assets/images/erizo_promo.png',
       ],
     ),
     Project(
@@ -279,9 +273,10 @@ class PortfolioData {
       ],
       playStoreUrl:
           'https://play.google.com/store/search?q=padel+magic&c=apps',
-      coverImage: 'assets/images/img-5.jpeg',
+      coverImage: 'assets/images/padel_watch_project.png',
       additionalImages: [
-        'assets/images/img-1.jpeg',
+        'assets/images/screenshot_padelwatch.png',
+        'assets/images/PADEL_MAGIC_banner.png',
       ],
     ),
     Project(
@@ -301,9 +296,10 @@ class PortfolioData {
         'Twilio OTP authentication',
         'In-app wallet & consultation booking',
       ],
-      coverImage: 'assets/images/img-1.jpeg',
+      coverImage: 'assets/images/astro_project_image.jpeg',
       additionalImages: [
-        'assets/images/img-2.jpeg',
+        'assets/images/img-3.jpeg',
+        'assets/images/img-4.jpeg',
       ],
     ),
   ];
