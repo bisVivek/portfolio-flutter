@@ -244,6 +244,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeOutCubic,
                                   transform: Matrix4.identity()
+                                    // ignore: deprecated_member_use
                                     ..scale(isHovered ? 1.04 : 1.0),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 18, vertical: 14),

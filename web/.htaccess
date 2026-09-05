@@ -2,7 +2,33 @@
   RewriteEngine On
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
+
+  # Exclude actual existing files and directories
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
+  # Do not rewrite static files to index.html (prevents broken media and white screen JS syntax errors)
+  RewriteCond %{REQUEST_URI} !^/.*\.(js|css|wasm|png|jpg|jpeg|gif|ico|svg|mp4|webm|json|ttf|woff|woff2)$ [NC]
   RewriteRule . /index.html [L]
 </IfModule>
+
+# Video & Asset MIME Types
+<IfModule mod_mime.c>
+  AddType video/mp4 .mp4 .m4v
+  AddType video/webm .webm
+  AddType application/wasm .wasm
+  AddType application/javascript .js
+</IfModule>
+
+# Enable Range Requests for Video Streaming & CORS for Static Assets
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm|js|json)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+  <FilesMatch "\.(mp4|webm|m4v|ogv)$">
+    Header set Access-Control-Allow-Origin "*"
+    Header set Accept-Ranges "bytes"
+  </FilesMatch>
+</IfModule>
+

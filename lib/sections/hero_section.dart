@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../data/portfolio_data.dart';
@@ -333,7 +332,6 @@ class _TechStackShowcaseState extends State<_TechStackShowcase>
 
 class _CyberTechChip extends StatefulWidget {
   const _CyberTechChip({
-    this.icon,
     this.leadingWidget,
     required this.title,
     required this.subtitle,
@@ -341,7 +339,6 @@ class _CyberTechChip extends StatefulWidget {
     required this.badgeText,
   });
 
-  final IconData? icon;
   final Widget? leadingWidget;
   final String title;
   final String subtitle;
@@ -403,63 +400,66 @@ class _CyberTechChipState extends State<_CyberTechChip> {
               ),
               child: widget.leadingWidget ??
                   Icon(
-                    widget.icon ?? Icons.code,
+                    Icons.code,
                     color: widget.accentColor,
                     size: 22,
                   ),
             ),
             const SizedBox(width: 14),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      widget.title,
-                      style: const TextStyle(
-                        color: AppTheme.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: widget.accentColor.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(
-                          color: widget.accentColor.withValues(alpha: 0.5),
-                        ),
-                      ),
-                      child: Text(
-                        widget.badgeText,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 8,
+                    runSpacing: 4,
+                    children: [
+                      Text(
+                        widget.title,
                         style: const TextStyle(
                           color: AppTheme.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.8,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.5,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  widget.subtitle,
-                  style: TextStyle(
-                    color: AppTheme.white.withValues(alpha: 0.78),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: widget.accentColor.withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: widget.accentColor.withValues(alpha: 0.5),
+                          ),
+                        ),
+                        child: Text(
+                          widget.badgeText,
+                          style: const TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 3),
+                  Text(
+                    widget.subtitle,
+                    style: TextStyle(
+                      color: AppTheme.white.withValues(alpha: 0.78),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

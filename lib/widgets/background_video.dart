@@ -34,23 +34,25 @@ class _BackgroundVideoState extends State<BackgroundVideo> {
   }
 
   void _initVideo() {
-    _controller = VideoPlayerController.asset(widget.assetPath)
-      ..initialize().then((_) {
-        if (mounted) {
-          _controller.setLooping(true);
-          _controller.setVolume(0.0);
-          _controller.play();
-          setState(() {
-            _initialized = true;
-          });
-        }
-      }).catchError((error) {
-        if (mounted) {
-          setState(() {
-            _hasError = true;
-          });
-        }
-      });
+    _controller = VideoPlayerController.asset(widget.assetPath);
+    _controller.setVolume(0.0);
+    _controller.initialize().then((_) {
+      if (mounted) {
+        _controller.setLooping(true);
+        _controller.setVolume(0.0);
+        _controller.play();
+        setState(() {
+          _initialized = true;
+        });
+      }
+    }).catchError((error) {
+      debugPrint('BackgroundVideo error ($error) loading asset ${widget.assetPath}');
+      if (mounted) {
+        setState(() {
+          _hasError = true;
+        });
+      }
+    });
   }
 
   @override

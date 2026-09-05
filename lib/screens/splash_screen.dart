@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
-import '../widgets/background_video.dart';
 import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {

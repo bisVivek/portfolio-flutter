@@ -25,15 +25,17 @@ class _PortfolioVideoPlayerState extends State<PortfolioVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset(widget.assetPath)
-      ..initialize().then((_) {
-        if (mounted) {
-          setState(() => _initialized = true);
-          _controller.setLooping(true);
-        }
-      }).catchError((_) {
-        if (mounted) setState(() => _hasError = true);
-      });
+    _controller = VideoPlayerController.asset(widget.assetPath);
+    _controller.setVolume(0.0);
+    _controller.initialize().then((_) {
+      if (mounted) {
+        setState(() => _initialized = true);
+        _controller.setLooping(true);
+      }
+    }).catchError((error) {
+      debugPrint('PortfolioVideoPlayer error ($error) loading asset ${widget.assetPath}');
+      if (mounted) setState(() => _hasError = true);
+    });
   }
 
   @override

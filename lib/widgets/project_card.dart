@@ -419,6 +419,7 @@ class ProjectCard extends StatelessWidget {
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.001)
                 ..rotateZ(-0.16)
+                // ignore: deprecated_member_use
                 ..scale(0.85),
               alignment: Alignment.center,
               child: Container(
@@ -459,6 +460,7 @@ class ProjectCard extends StatelessWidget {
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.001)
                 ..rotateZ(0.16)
+                // ignore: deprecated_member_use
                 ..scale(0.85),
               alignment: Alignment.center,
               child: Container(

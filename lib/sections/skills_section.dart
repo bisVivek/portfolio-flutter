@@ -698,10 +698,12 @@ class _MasterpieceSkillCardState extends State<_MasterpieceSkillCard> {
               ),
             ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
               // Header
               Row(
                 children: [
@@ -767,8 +769,9 @@ class _MasterpieceSkillCardState extends State<_MasterpieceSkillCard> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _leadingIconFor(String title, Color accent) {
     return switch (title.toLowerCase()) {
@@ -839,14 +842,17 @@ class _CyberSkillPillState extends State<_CyberSkillPill> {
           children: [
             _skillLogoFor(widget.skill, accent),
             const SizedBox(width: 6),
-            Text(
-              widget.skill,
-              style: TextStyle(
-                fontSize: widget.isLarge ? 13 : 11,
-                fontWeight: FontWeight.w700,
-                color: _hovered
-                    ? AppTheme.white
-                    : AppTheme.white.withValues(alpha: 0.9),
+            Flexible(
+              child: Text(
+                widget.skill,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: widget.isLarge ? 13 : 11,
+                  fontWeight: FontWeight.w700,
+                  color: _hovered
+                      ? AppTheme.white
+                      : AppTheme.white.withValues(alpha: 0.9),
+                ),
               ),
             ),
           ],
