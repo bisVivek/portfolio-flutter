@@ -208,73 +208,102 @@ class PortfolioData {
 
   static const List<Project> projects = [
     Project(
-      name: 'Zofanso',
+      name: 'ERIZO',
+      subtitle: 'MULTIVENDOR COMMERCE PLATFORM',
       techStack: ['Flutter', 'Dart', 'Firebase', 'Laravel'],
       description:
-          'Multivendor food & grocery delivery app — 4.8★ on Play Store with 5K+ downloads.',
+          'Customer grocery app & web storefront platform with real-time order processing.',
       highlights: [
-        'Order scheduling, live chat support, and refer & earn system.',
-        'Location-based delivery, payment gateway, and Firebase integration.',
-      ],
-      websiteUrl: 'https://zofanso.com',
-      playStoreUrl:
-          'https://play.google.com/store/apps/details?id=com.frantic.safemax.user',
-      coverImage: 'assets/images/zofanso_play_store.png',
-    ),
-    Project(
-      name: 'Erizo',
-      techStack: ['Flutter', 'Dart', 'Firebase', 'Laravel'],
-      description:
-          'Customer grocery app — part of the Erizo ecosystem with web platform at erizo.in.',
-      highlights: [
-        'Product catalog, cart, checkout, and in-store pickup.',
-        'Live order tracking with Firebase and REST APIs.',
+        'Product catalog & cart checkout',
+        'Live order tracking with Firebase',
+        'Storefront web platform at erizo.in',
       ],
       websiteUrl: 'https://erizo.in',
       playStoreUrl:
           'https://play.google.com/store/apps/details?id=com.erizo.user',
       coverImage: 'assets/images/erizo_promo.png',
+      additionalImages: [
+        'assets/images/erizo_web_home.png',
+        'assets/images/erizo_play_console.png',
+      ],
     ),
     Project(
-      name: 'Erizo Delivery',
-      techStack: ['Flutter', 'Dart', 'Firebase', 'Maps'],
+      name: 'ZOFANSO',
+      subtitle: 'FOOD • GROCERY • MULTIVENDOR',
+      techStack: ['Flutter', 'Dart', 'Firebase', 'Laravel'],
       description:
-          'Delivery partner app for the Erizo grocery ecosystem — live on Google Play Store.',
+          'Production-ready marketplace application built for real-world commerce with 5K+ downloads.',
       highlights: [
-        'Real-time order assignment, pickup, and drop-off tracking on map.',
-        'Production app (com.erizo.delivery) integrated with vendor & customer apps.',
+        'Multi-vendor food & grocery architecture',
+        'Real-time order management & live chat',
+        '4.8★ on Play Store with 110+ reviews',
+      ],
+      websiteUrl: 'https://zofanso.com',
+      playStoreUrl:
+          'https://play.google.com/store/apps/details?id=com.frantic.safemax.user',
+      coverImage: 'assets/images/zofanso_play_store.png',
+      additionalImages: [
+        'assets/images/erizo_promo.png',
+        'assets/images/erizo_web_home.png',
+      ],
+    ),
+    Project(
+      name: 'ERIZO DELIVERY',
+      subtitle: 'DELIVERY & MAP NAVIGATION',
+      techStack: ['Flutter', 'Dart', 'Firebase', 'Google Maps'],
+      description:
+          'Delivery partner app for live order navigation, GPS location tracking, and order assignment.',
+      highlights: [
+        'Real-time GPS location tracking & map route',
+        'Live map navigation for delivery partners',
+        'Production release live on Google Play Store',
       ],
       playStoreUrl:
           'https://play.google.com/store/apps/details?id=com.erizo.delivery',
       coverImage: 'assets/images/erizo_web_home.png',
+      additionalImages: [
+        'assets/images/erizo_play_console.png',
+        'assets/images/erizo_promo.png',
+      ],
     ),
     Project(
-      name: 'Padel Magic',
+      name: 'PADEL MAGIC',
+      subtitle: 'WEAR OS SPORT TRACKER',
       techStack: ['Flutter', 'Dart', 'Wear OS'],
       description:
           'Wear OS smartwatch application for Padel sport tracking, published on Google Play Store.',
       highlights: [
-        'Optimized UI for small watch displays.',
-        'Real-time data and smooth Wear OS interactions.',
+        'Optimized UI for round watch displays',
+        'Low-latency touch & wrist gestures',
+        'Published live on Google Play Store',
       ],
       playStoreUrl:
           'https://play.google.com/store/search?q=padel+magic&c=apps',
+      coverImage: 'assets/images/img-5.jpeg',
+      additionalImages: [
+        'assets/images/img-1.jpeg',
+      ],
     ),
     Project(
-      name: 'Astrology Consultation App',
+      name: 'ASTROLOGY',
+      subtitle: 'REAL-TIME AUDIO + VIDEO',
       techStack: [
         'Flutter',
-        'Dart',
-        'Firebase',
+        'Agora',
         'Twilio',
-        'Agora SDK',
+        'Firebase',
         'Payment Gateway',
       ],
       description:
-          'Real-time consultation platform with audio/video calling and payment gateway integration.',
+          'Real-time consultation platform with high-definition audio/video calling and payment gateway.',
       highlights: [
-        'Appointment booking, live chat, and horoscope features.',
-        'Twilio OTP, Agora SDK calls, and Firebase push notifications.',
+        'HD video/audio via Agora SDK',
+        'Twilio OTP authentication',
+        'In-app wallet & consultation booking',
+      ],
+      coverImage: 'assets/images/img-1.jpeg',
+      additionalImages: [
+        'assets/images/img-2.jpeg',
       ],
     ),
   ];

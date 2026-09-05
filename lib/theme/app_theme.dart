@@ -6,6 +6,7 @@ class AppTheme {
   static const Color white = Color(0xFFFFFFFF);
   static const Color neon = Color(0xFFC1FF00);
   static const Color purple = Color(0xFF7B61FF);
+  static const Color cyan = Color(0xFF00E5FF);
 
   // Semantic aliases used across widgets
   static const Color background = white;

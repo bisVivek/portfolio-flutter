@@ -29,7 +29,9 @@ class Project {
     required this.techStack,
     required this.description,
     required this.highlights,
+    this.subtitle,
     this.coverImage,
+    this.additionalImages,
     this.websiteUrl,
     this.playStoreUrl,
     this.appStoreUrl,
@@ -39,7 +41,9 @@ class Project {
   final List<String> techStack;
   final String description;
   final List<String> highlights;
+  final String? subtitle;
   final String? coverImage;
+  final List<String>? additionalImages;
   final String? websiteUrl;
   final String? playStoreUrl;
   final String? appStoreUrl;
