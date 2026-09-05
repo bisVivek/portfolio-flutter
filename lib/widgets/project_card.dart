@@ -81,11 +81,15 @@ class ProjectCard extends StatelessWidget {
                   )
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildHeroDeviceScene(context, height: 250),
+                      _buildHeroDeviceScene(context, height: 230),
                       const SizedBox(height: 10),
-                      _buildEditorialDetails(context),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: _buildEditorialDetails(context),
+                        ),
+                      ),
                     ],
                   ),
           ),
@@ -743,7 +747,6 @@ class ProjectCard extends StatelessWidget {
 
   /// PROJECT 05: Astrology Dual Phone RTC Consultation Scene
   Widget _buildAstrologyDualPhoneScene(BuildContext context) {
-    final isMobile = MediaQuery.sizeOf(context).width < 900;
     final cover = project.coverImage ?? 'assets/images/img-3.jpeg';
     final extra = (project.additionalImages?.isNotEmpty ?? false)
         ? project.additionalImages![0]

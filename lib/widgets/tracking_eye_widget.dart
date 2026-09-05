@@ -417,11 +417,17 @@ class TrackingEyeWidgetState extends State<TrackingEyeWidget>
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    final isMobile = width < 768;
+    final scale = isMobile ? 0.65 : 1.0;
     final idleMsg = _showIdleChat ? _idleMessages[_idleMessageIndex] : null;
 
-    return SizedBox(
-      width: kEyeSize + 200,
-      height: kEyeSize + 120,
+    final unscaledWidth = kEyeSize + 200;
+    final unscaledHeight = kEyeSize + 120;
+
+    final content = SizedBox(
+      width: unscaledWidth,
+      height: unscaledHeight,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.bottomLeft,
@@ -488,6 +494,25 @@ class TrackingEyeWidgetState extends State<TrackingEyeWidget>
             ),
           ),
         ],
+      ),
+    );
+
+    if (scale == 1.0) return content;
+
+    return SizedBox(
+      width: unscaledWidth * scale,
+      height: unscaledHeight * scale,
+      child: OverflowBox(
+        minWidth: unscaledWidth,
+        maxWidth: unscaledWidth,
+        minHeight: unscaledHeight,
+        maxHeight: unscaledHeight,
+        alignment: Alignment.bottomLeft,
+        child: Transform.scale(
+          scale: scale,
+          alignment: Alignment.bottomLeft,
+          child: content,
+        ),
       ),
     );
   }
