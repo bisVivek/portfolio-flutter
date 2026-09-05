@@ -26,6 +26,37 @@ class RevealOnScrollState extends State<RevealOnScroll> {
   final _key = GlobalKey();
   bool _visible = false;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_visible) {
+        _checkVisibilityDirect();
+      }
+    });
+  }
+
+  void _checkVisibilityDirect() {
+    if (_visible) return;
+    final context = _key.currentContext;
+    if (context == null) return;
+    final box = context.findRenderObject() as RenderBox?;
+    if (box == null || !box.hasSize) return;
+
+    final scrollable = Scrollable.maybeOf(context);
+    if (scrollable != null) {
+      final scrollBox = scrollable.context.findRenderObject() as RenderBox?;
+      if (scrollBox != null && scrollBox.hasSize) {
+        final offset = box.localToGlobal(Offset.zero, ancestor: scrollBox);
+        if (offset.dy < scrollBox.size.height * 0.95) {
+          setState(() => _visible = true);
+          return;
+        }
+      }
+    }
+    setState(() => _visible = true);
+  }
+
   void checkVisibility(ScrollController controller) {
     if (_visible) return;
     final context = _key.currentContext;

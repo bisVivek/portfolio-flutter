@@ -169,14 +169,24 @@ class _SkillsSectionState extends State<SkillsSection> {
             : (columnCount == 2 ? 1.38 : 1.55),
       ),
       itemCount: filteredCategories.length,
-      itemBuilder: (context, index) => StaggerReveal(
-        index: index,
-        child: _MasterpieceSkillCard(
-          category: filteredCategories[index],
-          highlighted: index == 0 && _selectedCategory == 'ALL',
-          cardIndex: index,
-        ),
-      ),
+      itemBuilder: (context, index) => _MasterpieceSkillCard(
+        category: filteredCategories[index],
+        highlighted: index == 0 && _selectedCategory == 'ALL',
+        cardIndex: index,
+      )
+          .animate(key: ValueKey('skill_card_${_selectedCategory}_$index'))
+          .fadeIn(
+            duration: 350.ms,
+            delay: Duration(milliseconds: index * 40),
+            curve: Curves.easeOutCubic,
+          )
+          .scale(
+            begin: const Offset(0.95, 0.95),
+            end: const Offset(1.0, 1.0),
+            duration: 350.ms,
+            delay: Duration(milliseconds: index * 40),
+            curve: Curves.easeOutCubic,
+          ),
     );
   }
 }
@@ -272,6 +282,138 @@ class _FilterTab extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Smoothly Animated Proficiency Number Counter & Progress Bar
+class _AnimatedProficiencyBar extends StatefulWidget {
+  const _AnimatedProficiencyBar({
+    required this.targetProficiency,
+    required this.accentColor,
+    this.height = 6.0,
+    this.fontSize = 12.0,
+    this.delayMs = 200,
+    this.showLabel = false,
+  });
+
+  final int targetProficiency;
+  final Color accentColor;
+  final double height;
+  final double fontSize;
+  final int delayMs;
+  final bool showLabel;
+
+  @override
+  State<_AnimatedProficiencyBar> createState() =>
+      _AnimatedProficiencyBarState();
+}
+
+class _AnimatedProficiencyBarState extends State<_AnimatedProficiencyBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: widget.targetProficiency.toDouble(),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    ));
+
+    Future.delayed(Duration(milliseconds: widget.delayMs), () {
+      if (mounted) {
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant _AnimatedProficiencyBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.targetProficiency != widget.targetProficiency) {
+      _animation = Tween<double>(
+        begin: 0.0,
+        end: widget.targetProficiency.toDouble(),
+      ).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOutCubic,
+      ));
+      _controller.forward(from: 0.0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = widget.accentColor;
+
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        final currentVal = _animation.value;
+        final percentageInt = currentVal.toInt();
+
+        return Row(
+          children: [
+            if (widget.showLabel) ...[
+              Text(
+                'Proficiency Metric',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: AppTheme.white.withValues(alpha: 0.6),
+                ),
+              ),
+              const SizedBox(width: 16),
+            ],
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: LinearProgressIndicator(
+                  value: currentVal / 100.0,
+                  minHeight: widget.height,
+                  backgroundColor: Colors.white.withValues(alpha: 0.1),
+                  valueColor: AlwaysStoppedAnimation(accent),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+              decoration: BoxDecoration(
+                color: accent.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: accent.withValues(alpha: 0.35)),
+              ),
+              child: Text(
+                '$percentageInt%',
+                style: TextStyle(
+                  fontSize: widget.fontSize,
+                  fontWeight: FontWeight.w900,
+                  color: accent,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -432,39 +574,14 @@ class _SpotlightSkillCategoryCardState
 
           const SizedBox(height: 20),
 
-          // Progress Bar
-          Row(
-            children: [
-              Text(
-                'Proficiency Metric',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: AppTheme.white.withValues(alpha: 0.6),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: LinearProgressIndicator(
-                    value: proficiency / 100.0,
-                    minHeight: 8,
-                    backgroundColor: Colors.white.withValues(alpha: 0.1),
-                    valueColor: AlwaysStoppedAnimation(accent),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                '$proficiency%',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: accent,
-                ),
-              ),
-            ],
+          // Animated Progress Bar & Percentage Counter
+          _AnimatedProficiencyBar(
+            targetProficiency: proficiency,
+            accentColor: accent,
+            height: 8.0,
+            fontSize: 13.0,
+            delayMs: widget.cardIndex * 80 + 150,
+            showLabel: true,
           ),
 
           const SizedBox(height: 24),
@@ -615,31 +732,15 @@ class _MasterpieceSkillCardState extends State<_MasterpieceSkillCard> {
                             color: AppTheme.white,
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(4),
-                                child: LinearProgressIndicator(
-                                  value: proficiency / 100.0,
-                                  minHeight: 5,
-                                  backgroundColor:
-                                      Colors.white.withValues(alpha: 0.1),
-                                  valueColor: AlwaysStoppedAnimation(accent),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              '$proficiency%',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w800,
-                                color: accent,
-                              ),
-                            ),
-                          ],
+                        const SizedBox(height: 6),
+                        // Animated Proficiency Bar & Counter
+                        _AnimatedProficiencyBar(
+                          targetProficiency: proficiency,
+                          accentColor: accent,
+                          height: 5.0,
+                          fontSize: 11.0,
+                          delayMs: widget.cardIndex * 60 + 100,
+                          showLabel: false,
                         ),
                       ],
                     ),
@@ -648,7 +749,7 @@ class _MasterpieceSkillCardState extends State<_MasterpieceSkillCard> {
               ),
               const SizedBox(height: 16),
 
-              // Skill Chips Grid (Fills tight without scrolling or empty gaps)
+              // Skill Chips Grid
               Wrap(
                 spacing: 6,
                 runSpacing: 6,
