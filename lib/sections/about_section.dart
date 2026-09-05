@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/portfolio_data.dart';
 import '../theme/app_theme.dart';
+import '../widgets/animated_stat_counter.dart';
 import '../widgets/reveal_on_scroll.dart';
 import '../widgets/section_header.dart';
 
@@ -63,13 +64,13 @@ class _HighlightedAboutText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const baseStyle = TextStyle(
-      fontSize: 20,
+      fontSize: 18,
       height: 1.7,
       color: AppTheme.textSecondary,
       fontWeight: FontWeight.w400,
     );
     const highlightStyle = TextStyle(
-      fontSize: 20,
+      fontSize: 18,
       height: 1.7,
       color: AppTheme.purple,
       fontWeight: FontWeight.w800,
@@ -77,21 +78,68 @@ class _HighlightedAboutText extends StatelessWidget {
       decorationColor: AppTheme.purple,
       decorationThickness: 2,
     );
+    const boldStyle = TextStyle(
+      fontSize: 18,
+      height: 1.7,
+      color: AppTheme.black,
+      fontWeight: FontWeight.w700,
+    );
 
-    return RichText(
-      text: const TextSpan(
-        style: baseStyle,
-        children: [
-          TextSpan(text: 'Flutter Developer with '),
-          TextSpan(text: '2+ YEARS OF EXPERIENCE', style: highlightStyle),
-          TextSpan(text: ' building '),
-          TextSpan(text: 'ANDROID, iOS & WEAR OS', style: highlightStyle),
-          TextSpan(
-            text:
-                ' apps. Shipped 150+ apps to Play Store and 50+ to App Store with clean architecture, Firebase, and REST APIs.',
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: const TextSpan(
+            style: baseStyle,
+            children: [
+              TextSpan(text: 'Flutter Developer with '),
+              TextSpan(text: '2+ YEARS OF EXPERIENCE', style: highlightStyle),
+              TextSpan(text: ' building scalable applications for '),
+              TextSpan(text: 'ANDROID, iOS & WEAR OS', style: highlightStyle),
+              TextSpan(
+                text:
+                    '. Shipped over 150+ apps to Google Play Store and 50+ to Apple App Store adhering to clean architecture, Firebase, and REST APIs.',
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 20),
+        RichText(
+          text: const TextSpan(
+            style: baseStyle,
+            children: [
+              TextSpan(text: 'Specialized in modern state management ('),
+              TextSpan(text: 'Provider, GetX, Riverpod, Bloc', style: boldStyle),
+              TextSpan(text: '), payment gateways ('),
+              TextSpan(text: 'Razorpay, Stripe', style: boldStyle),
+              TextSpan(text: '), real-time video/audio calling ('),
+              TextSpan(text: 'Agora SDK, Twilio', style: boldStyle),
+              TextSpan(
+                text:
+                    '), and automated push notifications with Firebase FCM. Dedicated to writing clean, maintainable code with high performance across all mobile and wearable screen sizes.',
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        RichText(
+          text: const TextSpan(
+            style: baseStyle,
+            children: [
+              TextSpan(text: 'Experienced in delivering multi-app ecosystems including '),
+              TextSpan(text: 'Zofanso', style: boldStyle),
+              TextSpan(text: ' (4.8★ on Play Store with 5K+ downloads), '),
+              TextSpan(text: 'Erizo Grocery & Delivery Partner Apps', style: boldStyle),
+              TextSpan(text: ', Wear OS smartwatch trackers ('),
+              TextSpan(text: 'Padel Magic', style: boldStyle),
+              TextSpan(
+                text:
+                    '), and enterprise backends with Java & Spring Boot.',
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -113,8 +161,9 @@ class _StatsGrid extends StatelessWidget {
             decoration: AppTheme.cardDecoration(),
             child: Row(
               children: [
-                Text(
-                  stat.$1,
+                AnimatedStatCounter(
+                  value: stat.$1,
+                  delay: Duration(milliseconds: entry.key * 150),
                   style: Theme.of(context).textTheme.displayMedium?.copyWith(
                         fontSize: 44,
                         color: AppTheme.purple,
@@ -140,3 +189,4 @@ class _StatsGrid extends StatelessWidget {
     );
   }
 }
+
