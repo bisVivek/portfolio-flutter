@@ -21,22 +21,40 @@ class HeroSection extends StatelessWidget {
         width: double.infinity,
         child: Stack(
           children: [
-            // Dark Ambient Background Video (pvb.mp4)
-            Positioned.fill(
+            // Ambient Background Video (pvb.mp4)
+            const Positioned.fill(
               child: BackgroundVideo(
                 assetPath: 'assets/videoes/pvb.mp4',
-                overlayOpacity: isWide ? 0.30 : 0.58,
+                overlayOpacity: 0.15,
                 showControls: false,
               ),
             ),
-            // Hero Content & Tech Stack Showcase Overlay
+            // Ultra-Light Gradient Overlay (Mobile View Only)
+            if (!isWide)
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      stops: const [0.0, 0.55, 1.0],
+                      colors: [
+                        AppTheme.black.withValues(alpha: 0.40),
+                        AppTheme.black.withValues(alpha: 0.20),
+                        AppTheme.black.withValues(alpha: 0.00),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            // Hero Content Overlay
             Container(
               width: double.infinity,
               padding: EdgeInsets.fromLTRB(
-                isWide ? 48 : 20,
-                isWide ? 56 : 28,
-                isWide ? 48 : 20,
-                isWide ? 72 : 28,
+                isWide ? 48 : 14,
+                isWide ? 56 : 0,
+                isWide ? 48 : 14,
+                isWide ? 72 : 2,
               ),
               child: Center(
                 child: ConstrainedBox(
@@ -59,7 +77,7 @@ class HeroSection extends StatelessWidget {
                             ),
                           ],
                         )
-                      : _HeroContent(
+                      : _MobileHeroContent(
                           onExploreWork: onExploreWork,
                           onContact: onContact,
                         ),
@@ -69,6 +87,311 @@ class HeroSection extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MobileHeroContent extends StatelessWidget {
+  const _MobileHeroContent({this.onExploreWork, this.onContact});
+
+  final VoidCallback? onExploreWork;
+  final VoidCallback? onContact;
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final titleFontSize = screenWidth < 360 ? 22.0 : (screenWidth < 400 ? 23.5 : 24.5);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // 1. Status Badge
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
+          decoration: BoxDecoration(
+            color: AppTheme.white,
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(
+              color: AppTheme.neon,
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.2),
+                blurRadius: 6,
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 6,
+                height: 6,
+                decoration: const BoxDecoration(
+                  color: AppTheme.black,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 5),
+              const Text(
+                'AVAILABLE FOR OPPORTUNITIES',
+                style: TextStyle(
+                  color: AppTheme.black,
+                  fontSize: 9.0,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.8,
+                ),
+              ),
+            ],
+          ),
+        )
+            .animate()
+            .fadeIn(duration: 600.ms)
+            .slideY(begin: -0.2, end: 0, duration: 600.ms),
+
+        const SizedBox(height: 3),
+
+        // 2. Main Headline
+        Text.rich(
+          TextSpan(
+            children: [
+              const TextSpan(
+                text: 'BUILDING\n',
+                style: TextStyle(color: AppTheme.black),
+              ),
+              const TextSpan(
+                text: 'APPS ',
+                style: TextStyle(
+                  color: AppTheme.neon,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+              ),
+              const TextSpan(
+                text: 'WITH 🔥\n',
+                style: TextStyle(color: AppTheme.black),
+              ),
+              const TextSpan(
+                text: 'PASSION',
+                style: TextStyle(color: AppTheme.black),
+              ),
+            ],
+          ),
+          style: TextStyle(
+            fontSize: titleFontSize,
+            fontWeight: FontWeight.w900,
+            height: 0.96,
+            letterSpacing: 0.4,
+          ),
+        )
+            .animate()
+            .fadeIn(duration: 800.ms, delay: 100.ms)
+            .slideY(begin: 0.1, end: 0, duration: 800.ms),
+
+        const SizedBox(height: 3),
+
+        // 3. Role Subtitle
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 16,
+              height: 2.5,
+              decoration: BoxDecoration(
+                color: AppTheme.neon,
+                borderRadius: BorderRadius.circular(2),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.neon.withValues(alpha: 0.9),
+                    blurRadius: 6,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              'FLUTTER DEVELOPER',
+              style: TextStyle(
+                color: AppTheme.neon,
+                fontSize: 13.5,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1.8,
+                shadows: [
+                  Shadow(
+                    color: Colors.black,
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ).animate().fadeIn(duration: 800.ms, delay: 200.ms),
+
+        const SizedBox(height: 3),
+
+        // 4. Description Paragraph
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 280),
+          child: const Text(
+            'Hi, I\'m Vivek Bisht — a Flutter Developer with 2+ years of experience building scalable Android, iOS & Wear OS applications.',
+            style: TextStyle(
+              color: AppTheme.black,
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
+              height: 1.3,
+            ),
+          ),
+        ).animate().fadeIn(duration: 800.ms, delay: 300.ms),
+
+        const SizedBox(height: 6),
+
+        // 5. CTA Buttons
+        Wrap(
+          spacing: 8,
+          runSpacing: 6,
+          children: [
+            FilledButton(
+              onPressed: onContact ?? onExploreWork,
+              style: FilledButton.styleFrom(
+                backgroundColor: AppTheme.neon,
+                foregroundColor: AppTheme.black,
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.6,
+                ),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('CONTACT ME'),
+                  SizedBox(width: 3),
+                  Icon(Icons.north_east_rounded, size: 13),
+                ],
+              ),
+            ),
+            OutlinedButton(
+              onPressed: onExploreWork,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppTheme.black,
+                side: const BorderSide(color: AppTheme.black, width: 1.4),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                backgroundColor: AppTheme.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.6,
+                ),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('VIEW MY WORK'),
+                  SizedBox(width: 3),
+                  Icon(Icons.arrow_forward_rounded, size: 13),
+                ],
+              ),
+            ),
+          ],
+        ).animate().fadeIn(duration: 800.ms, delay: 400.ms),
+
+        const SizedBox(height: 6),
+
+        // 6. Social Links & Floating Experience Card Row
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                _SocialBtn(
+                  icon: Icons.code,
+                  onTap: () => launchExternalUrl(PortfolioData.contact.githubUrl),
+                  isCompact: true,
+                ),
+                const SizedBox(width: 8),
+                _SocialBtn(
+                  icon: Icons.work_outline,
+                  onTap: () => launchExternalUrl(PortfolioData.contact.linkedinUrl),
+                  isCompact: true,
+                ),
+                const SizedBox(width: 8),
+                _SocialBtn(
+                  icon: Icons.email_outlined,
+                  onTap: () => launchEmail(PortfolioData.contact.email),
+                  isCompact: true,
+                ),
+              ],
+            ),
+            const Spacer(),
+            // 7. Small Floating Glass Info Card
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppTheme.black.withValues(alpha: 0.65),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: AppTheme.neon.withValues(alpha: 0.35),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.neon.withValues(alpha: 0.12),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    '⚡',
+                    style: TextStyle(fontSize: 13),
+                  ),
+                  const SizedBox(width: 6),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        '2+ YEARS',
+                        style: TextStyle(
+                          color: AppTheme.neon,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      Text(
+                        'Flutter Exp.',
+                        style: TextStyle(
+                          color: AppTheme.white.withValues(alpha: 0.8),
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+                .animate(onPlay: (c) => c.repeat(reverse: true))
+                .slideY(begin: 0, end: -0.08, duration: 2500.ms, curve: Curves.easeInOut),
+          ],
+        ).animate().fadeIn(duration: 800.ms, delay: 500.ms),
+      ],
     );
   }
 }
@@ -699,6 +1022,13 @@ class _SocialBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = isCompact ? 38.0 : 44.0;
     final iconSize = isCompact ? 18.0 : 20.0;
+    final iconColor = isCompact ? AppTheme.black : AppTheme.white;
+    final bgColor = isCompact
+        ? AppTheme.white.withValues(alpha: 0.85)
+        : AppTheme.black.withValues(alpha: 0.5);
+    final borderColor = isCompact
+        ? AppTheme.black.withValues(alpha: 0.6)
+        : AppTheme.white.withValues(alpha: 0.4);
 
     return InkWell(
       onTap: onTap,
@@ -707,11 +1037,11 @@ class _SocialBtn extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: AppTheme.black.withValues(alpha: 0.5),
+          color: bgColor,
           shape: BoxShape.circle,
-          border: Border.all(color: AppTheme.white.withValues(alpha: 0.4)),
+          border: Border.all(color: borderColor),
         ),
-        child: Icon(icon, color: AppTheme.white, size: iconSize),
+        child: Icon(icon, color: iconColor, size: iconSize),
       ),
     );
   }

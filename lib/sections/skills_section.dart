@@ -54,6 +54,7 @@ class _SkillsSectionState extends State<SkillsSection> {
                   subtitle:
                       'Battle-tested frameworks, state management, backend engines, and DevOps tools.',
                   large: true,
+                  dark: true,
                 ),
               ),
               const SizedBox(height: 24),

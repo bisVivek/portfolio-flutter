@@ -63,6 +63,8 @@ class _HighlightedAboutText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isWide = MediaQuery.sizeOf(context).width >= 900;
+
     const baseStyle = TextStyle(
       fontSize: 18,
       height: 1.7,
@@ -103,42 +105,44 @@ class _HighlightedAboutText extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 20),
-        RichText(
-          text: const TextSpan(
-            style: baseStyle,
-            children: [
-              TextSpan(text: 'Specialized in modern state management ('),
-              TextSpan(text: 'Provider, GetX, Riverpod, Bloc', style: boldStyle),
-              TextSpan(text: '), payment gateways ('),
-              TextSpan(text: 'Razorpay, Stripe', style: boldStyle),
-              TextSpan(text: '), real-time video/audio calling ('),
-              TextSpan(text: 'Agora SDK, Twilio', style: boldStyle),
-              TextSpan(
-                text:
-                    '), and automated push notifications with Firebase FCM. Dedicated to writing clean, maintainable code with high performance across all mobile and wearable screen sizes.',
-              ),
-            ],
+        if (isWide) ...[
+          const SizedBox(height: 20),
+          RichText(
+            text: const TextSpan(
+              style: baseStyle,
+              children: [
+                TextSpan(text: 'Specialized in modern state management ('),
+                TextSpan(text: 'Provider, GetX, Riverpod, Bloc', style: boldStyle),
+                TextSpan(text: '), payment gateways ('),
+                TextSpan(text: 'Razorpay, Stripe', style: boldStyle),
+                TextSpan(text: '), real-time video/audio calling ('),
+                TextSpan(text: 'Agora SDK, Twilio', style: boldStyle),
+                TextSpan(
+                  text:
+                      '), and automated push notifications with Firebase FCM. Dedicated to writing clean, maintainable code with high performance across all mobile and wearable screen sizes.',
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        RichText(
-          text: const TextSpan(
-            style: baseStyle,
-            children: [
-              TextSpan(text: 'Experienced in delivering multi-app ecosystems including '),
-              TextSpan(text: 'Zofanso', style: boldStyle),
-              TextSpan(text: ' (4.8★ on Play Store with 5K+ downloads), '),
-              TextSpan(text: 'Erizo Grocery & Delivery Partner Apps', style: boldStyle),
-              TextSpan(text: ', Wear OS smartwatch trackers ('),
-              TextSpan(text: 'Padel Magic', style: boldStyle),
-              TextSpan(
-                text:
-                    '), and enterprise backends with Java & Spring Boot.',
-              ),
-            ],
+          const SizedBox(height: 20),
+          RichText(
+            text: const TextSpan(
+              style: baseStyle,
+              children: [
+                TextSpan(text: 'Experienced in delivering multi-app ecosystems including '),
+                TextSpan(text: 'Zofanso', style: boldStyle),
+                TextSpan(text: ' (4.8★ on Play Store with 5K+ downloads), '),
+                TextSpan(text: 'Erizo Grocery & Delivery Partner Apps', style: boldStyle),
+                TextSpan(text: ', Wear OS smartwatch trackers ('),
+                TextSpan(text: 'Padel Magic', style: boldStyle),
+                TextSpan(
+                  text:
+                      '), and enterprise backends with Java & Spring Boot.',
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
