@@ -21,11 +21,11 @@ class HeroSection extends StatelessWidget {
         width: double.infinity,
         child: Stack(
           children: [
-            // Bright Ambient Background Video (pvb.mp4) without blackish darkening
-            const Positioned.fill(
+            // Dark Ambient Background Video (pvb.mp4)
+            Positioned.fill(
               child: BackgroundVideo(
                 assetPath: 'assets/videoes/pvb.mp4',
-                overlayOpacity: 0.15,
+                overlayOpacity: isWide ? 0.30 : 0.58,
                 showControls: false,
               ),
             ),
@@ -33,10 +33,10 @@ class HeroSection extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: EdgeInsets.fromLTRB(
-                isWide ? 48 : 24,
-                isWide ? 56 : 40,
-                isWide ? 48 : 24,
-                isWide ? 72 : 48,
+                isWide ? 48 : 20,
+                isWide ? 56 : 28,
+                isWide ? 48 : 20,
+                isWide ? 72 : 28,
               ),
               child: Center(
                 child: ConstrainedBox(
@@ -59,16 +59,9 @@ class HeroSection extends StatelessWidget {
                             ),
                           ],
                         )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _HeroContent(
-                              onExploreWork: onExploreWork,
-                              onContact: onContact,
-                            ),
-                            const SizedBox(height: 36),
-                            const _TechStackShowcase(),
-                          ],
+                      : _HeroContent(
+                          onExploreWork: onExploreWork,
+                          onContact: onContact,
                         ),
                 ),
               ),
@@ -100,36 +93,49 @@ class _HeroContent extends StatelessWidget {
               TextSpan(
                 text: 'BUILDING ',
                 style: TextStyle(
-                  color: AppTheme.black,
+                  color: isWide ? AppTheme.black : AppTheme.white,
                   shadows: [
                     Shadow(
-                      color: Colors.white.withValues(alpha: 0.9),
-                      blurRadius: 12,
+                      color: isWide
+                          ? Colors.white.withValues(alpha: 0.9)
+                          : Colors.black.withValues(alpha: 0.95),
+                      blurRadius: isWide ? 12 : 16,
+                      offset: isWide ? Offset.zero : const Offset(0, 2),
                     ),
                   ],
                 ),
               ),
               TextSpan(
-                text: 'APPS\n',
+                text: isWide ? 'APPS\n' : 'APPS ',
                 style: TextStyle(
-                  color: AppTheme.white,
+                  color: isWide ? AppTheme.white : AppTheme.neon,
                   shadows: [
                     Shadow(
-                      color: Colors.black.withValues(alpha: 0.95),
+                      color: isWide
+                          ? Colors.black.withValues(alpha: 0.95)
+                          : AppTheme.neon.withValues(alpha: 0.8),
                       blurRadius: 16,
                       offset: const Offset(0, 2),
                     ),
+                    if (!isWide)
+                      const Shadow(
+                        color: Colors.black,
+                        blurRadius: 16,
+                      ),
                   ],
                 ),
               ),
               TextSpan(
-                text: 'WITH 🔥 PASSION',
+                text: isWide ? 'WITH 🔥 PASSION' : '\nWITH 🔥 PASSION',
                 style: TextStyle(
-                  color: AppTheme.black,
+                  color: isWide ? AppTheme.black : AppTheme.white,
                   shadows: [
                     Shadow(
-                      color: Colors.white.withValues(alpha: 0.9),
-                      blurRadius: 12,
+                      color: isWide
+                          ? Colors.white.withValues(alpha: 0.9)
+                          : Colors.black.withValues(alpha: 0.95),
+                      blurRadius: isWide ? 12 : 16,
+                      offset: isWide ? Offset.zero : const Offset(0, 2),
                     ),
                   ],
                 ),
@@ -137,22 +143,23 @@ class _HeroContent extends StatelessWidget {
             ],
           ),
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: isWide ? 56 : 38,
+                fontSize: isWide ? 56 : 28,
                 fontWeight: FontWeight.w900,
-                height: 1.1,
+                height: isWide ? 1.1 : 1.18,
+                letterSpacing: isWide ? 0 : 0.5,
               ),
         )
             .animate()
             .fadeIn(duration: 900.ms)
             .slideY(begin: 0.1, end: 0, duration: 1000.ms),
-        const SizedBox(height: 20),
+        SizedBox(height: isWide ? 20 : 12),
         Text(
           PortfolioData.title,
           style: TextStyle(
             color: AppTheme.neon,
-            fontSize: isWide ? 26 : 22,
+            fontSize: isWide ? 26 : 15,
             fontWeight: FontWeight.w900,
-            letterSpacing: 3.0,
+            letterSpacing: isWide ? 3.0 : 1.2,
             shadows: [
               Shadow(
                 color: Colors.black.withValues(alpha: 0.95),
@@ -166,63 +173,79 @@ class _HeroContent extends StatelessWidget {
             ],
           ),
         ).animate().fadeIn(duration: 800.ms, delay: 100.ms),
-        const SizedBox(height: 16),
+        SizedBox(height: isWide ? 16 : 10),
         Text(
           'Hi, I\'m ${PortfolioData.name}. ${PortfolioData.summary.split('.').first}.',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: AppTheme.black,
-                fontSize: isWide ? 19 : 17,
+                fontSize: isWide ? 19 : 16,
                 fontWeight: FontWeight.w900,
-                fontStyle: FontStyle.italic,
-                shadows: [
-                  Shadow(
-                    color: Colors.white.withValues(alpha: 0.85),
-                    blurRadius: 10,
-                  ),
-                ],
+                letterSpacing: 0.3,
+                height: isWide ? 1.3 : 1.4,
               ),
         ).animate().fadeIn(duration: 800.ms, delay: 200.ms),
-        const SizedBox(height: 36),
+        SizedBox(height: isWide ? 36 : 20),
         Wrap(
-          spacing: 12,
-          runSpacing: 12,
+          spacing: isWide ? 12 : 10,
+          runSpacing: 10,
           children: [
             FilledButton(
               onPressed: onContact ?? onExploreWork,
+              style: isWide
+                  ? null
+                  : FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                      textStyle: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
               child: const Text('CONTACT ME'),
             ),
             OutlinedButton.icon(
               onPressed: onExploreWork,
-              icon: const Icon(Icons.work_outline, size: 18),
+              icon: Icon(Icons.work_outline, size: isWide ? 18 : 16),
               label: const Text('MY WORK'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppTheme.white,
                 side: BorderSide(color: AppTheme.white.withValues(alpha: 0.6)),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-                backgroundColor: AppTheme.black.withValues(alpha: 0.3),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isWide ? 24 : 18,
+                  vertical: isWide ? 18 : 14,
+                ),
+                backgroundColor: AppTheme.black.withValues(alpha: 0.4),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(999),
+                ),
+                textStyle: TextStyle(
+                  fontSize: isWide ? 14 : 13,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.8,
                 ),
               ),
             ),
           ],
         ).animate().fadeIn(duration: 800.ms, delay: 300.ms),
-        const SizedBox(height: 28),
+        SizedBox(height: isWide ? 28 : 18),
         Row(
           children: [
             _SocialBtn(
               icon: Icons.code,
               onTap: () => launchExternalUrl(PortfolioData.contact.githubUrl),
+              isCompact: !isWide,
             ),
             const SizedBox(width: 10),
             _SocialBtn(
               icon: Icons.work_outline,
               onTap: () => launchExternalUrl(PortfolioData.contact.linkedinUrl),
+              isCompact: !isWide,
             ),
             const SizedBox(width: 10),
             _SocialBtn(
               icon: Icons.email_outlined,
               onTap: () => launchEmail(PortfolioData.contact.email),
+              isCompact: !isWide,
             ),
           ],
         ).animate().fadeIn(duration: 800.ms, delay: 400.ms),
@@ -259,6 +282,66 @@ class _TechStackShowcaseState extends State<_TechStackShowcase>
 
   @override
   Widget build(BuildContext context) {
+    final isWide = MediaQuery.sizeOf(context).width >= 900;
+
+    final chipsData = const [
+      (
+        leading: FlutterLogo(size: 24),
+        compactLeading: FlutterLogo(size: 18),
+        title: 'FLUTTER & DART',
+        subtitle: 'Android · iOS · Web · Wear OS',
+        color: Color(0xFF40C4FF),
+        badge: 'CORE FRAMEWORK',
+      ),
+      (
+        leading: _FirebaseFlameLogo(size: 24),
+        compactLeading: _FirebaseFlameLogo(size: 18),
+        title: 'FIREBASE & REST APIs',
+        subtitle: 'Firestore · Auth · FCM · REST',
+        color: Color(0xFFFFCA28),
+        badge: 'CLOUD & BACKEND',
+      ),
+      (
+        leading: Icon(Icons.android, color: Color(0xFF3DDC84), size: 24),
+        compactLeading: Icon(Icons.android, color: Color(0xFF3DDC84), size: 18),
+        title: 'ANDROID & iOS & WEAR OS',
+        subtitle: 'Cross-Platform Native',
+        color: Color(0xFF3DDC84),
+        badge: 'MOBILE & WEARABLE',
+      ),
+      (
+        leading: Icon(Icons.shop_two_rounded, color: AppTheme.neon, size: 24),
+        compactLeading: Icon(Icons.shop_two_rounded, color: AppTheme.neon, size: 18),
+        title: '150+ PLAY STORE APPS',
+        subtitle: '50+ App Store Releases',
+        color: AppTheme.neon,
+        badge: 'SHIPPED APPS',
+      ),
+    ];
+
+    if (!isWide) {
+      return SizedBox(
+        height: 84,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          itemCount: chipsData.length,
+          separatorBuilder: (_, __) => const SizedBox(width: 10),
+          itemBuilder: (context, index) {
+            final item = chipsData[index];
+            return _CyberTechChip(
+              leadingWidget: item.compactLeading,
+              title: item.title,
+              subtitle: item.subtitle,
+              accentColor: item.color,
+              badgeText: item.badge,
+              isCompact: true,
+            );
+          },
+        ),
+      );
+    }
+
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -274,53 +357,45 @@ class _TechStackShowcaseState extends State<_TechStackShowcase>
           children: [
             Transform.translate(
               offset: Offset(0, float1),
-              child: const _CyberTechChip(
-                leadingWidget: FlutterLogo(size: 24),
-                title: 'FLUTTER & DART',
-                subtitle: 'Android · iOS · Web · Wear OS',
-                accentColor: Color(0xFF40C4FF),
-                badgeText: 'CORE FRAMEWORK',
+              child: _CyberTechChip(
+                leadingWidget: chipsData[0].leading,
+                title: chipsData[0].title,
+                subtitle: chipsData[0].subtitle,
+                accentColor: chipsData[0].color,
+                badgeText: chipsData[0].badge,
               ),
             ),
             const SizedBox(height: 14),
             Transform.translate(
               offset: Offset(0, float2),
-              child: const _CyberTechChip(
-                leadingWidget: _FirebaseFlameLogo(size: 24),
-                title: 'FIREBASE & REST APIs',
-                subtitle: 'Firestore · Auth · FCM · REST',
-                accentColor: Color(0xFFFFCA28),
-                badgeText: 'CLOUD & BACKEND',
+              child: _CyberTechChip(
+                leadingWidget: chipsData[1].leading,
+                title: chipsData[1].title,
+                subtitle: chipsData[1].subtitle,
+                accentColor: chipsData[1].color,
+                badgeText: chipsData[1].badge,
               ),
             ),
             const SizedBox(height: 14),
             Transform.translate(
               offset: Offset(0, float3),
-              child: const _CyberTechChip(
-                leadingWidget: Icon(
-                  Icons.android,
-                  color: Color(0xFF3DDC84),
-                  size: 24,
-                ),
-                title: 'ANDROID & iOS & WEAR OS',
-                subtitle: 'Cross-Platform Native Deployment',
-                accentColor: Color(0xFF3DDC84),
-                badgeText: 'MOBILE & WEARABLE',
+              child: _CyberTechChip(
+                leadingWidget: chipsData[2].leading,
+                title: chipsData[2].title,
+                subtitle: chipsData[2].subtitle,
+                accentColor: chipsData[2].color,
+                badgeText: chipsData[2].badge,
               ),
             ),
             const SizedBox(height: 14),
             Transform.translate(
               offset: Offset(0, float4),
-              child: const _CyberTechChip(
-                leadingWidget: Icon(
-                  Icons.shop_two_rounded,
-                  color: AppTheme.neon,
-                  size: 24,
-                ),
-                title: '150+ PLAY STORE APPS',
-                subtitle: '50+ Apple App Store Production Releases',
-                accentColor: AppTheme.neon,
-                badgeText: 'SHIPPED APPS',
+              child: _CyberTechChip(
+                leadingWidget: chipsData[3].leading,
+                title: chipsData[3].title,
+                subtitle: chipsData[3].subtitle,
+                accentColor: chipsData[3].color,
+                badgeText: chipsData[3].badge,
               ),
             ),
           ],
@@ -337,6 +412,7 @@ class _CyberTechChip extends StatefulWidget {
     required this.subtitle,
     required this.accentColor,
     required this.badgeText,
+    this.isCompact = false,
   });
 
   final Widget? leadingWidget;
@@ -344,6 +420,7 @@ class _CyberTechChip extends StatefulWidget {
   final String subtitle;
   final Color accentColor;
   final String badgeText;
+  final bool isCompact;
 
   @override
   State<_CyberTechChip> createState() => _CyberTechChipState();
@@ -354,6 +431,83 @@ class _CyberTechChipState extends State<_CyberTechChip> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isCompact) {
+      return Container(
+        width: 240,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: AppTheme.black.withValues(alpha: 0.75),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: widget.accentColor.withValues(alpha: 0.5),
+            width: 1.2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: widget.accentColor.withValues(alpha: 0.2),
+              blurRadius: 10,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                color: widget.accentColor.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: widget.accentColor.withValues(alpha: 0.6),
+                ),
+              ),
+              child: widget.leadingWidget ??
+                  Icon(
+                    Icons.code,
+                    color: widget.accentColor,
+                    size: 18,
+                  ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.title,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    widget.subtitle,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppTheme.white.withValues(alpha: 0.8),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
@@ -531,26 +685,35 @@ class _FirebaseFlamePainter extends CustomPainter {
 }
 
 class _SocialBtn extends StatelessWidget {
-  const _SocialBtn({required this.icon, required this.onTap});
+  const _SocialBtn({
+    required this.icon,
+    required this.onTap,
+    this.isCompact = false,
+  });
 
   final IconData icon;
   final VoidCallback onTap;
+  final bool isCompact;
 
   @override
   Widget build(BuildContext context) {
+    final size = isCompact ? 38.0 : 44.0;
+    final iconSize = isCompact ? 18.0 : 20.0;
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(999),
       child: Container(
-        width: 44,
-        height: 44,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
-          color: AppTheme.black.withValues(alpha: 0.4),
+          color: AppTheme.black.withValues(alpha: 0.5),
           shape: BoxShape.circle,
           border: Border.all(color: AppTheme.white.withValues(alpha: 0.4)),
         ),
-        child: Icon(icon, color: AppTheme.white, size: 20),
+        child: Icon(icon, color: AppTheme.white, size: iconSize),
       ),
     );
   }
 }
+
