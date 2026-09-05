@@ -58,7 +58,7 @@ class ProjectCard extends StatelessWidget {
 
           // Main Scene Layout
           Padding(
-            padding: EdgeInsets.all(isWide ? 44 : 22),
+            padding: EdgeInsets.all(isWide ? 44 : 12),
             child: isWide
                 ? Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,16 +79,14 @@ class ProjectCard extends StatelessWidget {
                       ),
                     ],
                   )
-                : SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildHeroDeviceScene(context, height: 280),
-                        const SizedBox(height: 28),
-                        _buildEditorialDetails(context),
-                      ],
-                    ),
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildHeroDeviceScene(context, height: 250),
+                      const SizedBox(height: 10),
+                      _buildEditorialDetails(context),
+                    ],
                   ),
           ),
         ],
@@ -97,10 +95,12 @@ class ProjectCard extends StatelessWidget {
   }
 
   Widget _buildEditorialDetails(BuildContext context) {
+    final isWide = MediaQuery.sizeOf(context).width >= 900;
     final pageNum = '0${index + 1} / 05';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         // Counter Header
         Row(
@@ -108,7 +108,7 @@ class ProjectCard extends StatelessWidget {
             Text(
               pageNum,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: isWide ? 13 : 11,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 2,
                 color: _accent == AppTheme.neon ? AppTheme.black : _accent,
@@ -122,64 +122,69 @@ class ProjectCard extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: isWide ? 16 : 6),
 
         // Project Name Typography Reveal
         Text(
           project.name,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontSize: 34,
+                fontSize: isWide ? 34 : 20,
                 fontWeight: FontWeight.w900,
-                letterSpacing: -1,
+                letterSpacing: -0.5,
                 color: Colors.white,
               ),
         ),
 
         // Subtitle Category Line
         if (project.subtitle != null) ...[
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           Text(
             project.subtitle!,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: isWide ? 13 : 11,
               fontWeight: FontWeight.w800,
-              letterSpacing: 2,
+              letterSpacing: 1.5,
               color: _accent == AppTheme.neon ? AppTheme.neon : _accent,
             ),
           ),
         ],
 
-        const SizedBox(height: 16),
+        SizedBox(height: isWide ? 16 : 8),
 
         // One-Line Editorial Description
         Text(
           '"${project.description}"',
+          maxLines: isWide ? null : 2,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 15,
-                height: 1.55,
+                fontSize: isWide ? 15 : 12,
+                height: 1.4,
                 color: Colors.white.withValues(alpha: 0.8),
                 fontStyle: FontStyle.italic,
               ),
         ),
-        const SizedBox(height: 22),
+        SizedBox(height: isWide ? 22 : 10),
 
         // Technology Stack Pills
         Text(
           'TECHNOLOGY',
           style: TextStyle(
-            fontSize: 10,
+            fontSize: isWide ? 10 : 9,
             fontWeight: FontWeight.w800,
-            letterSpacing: 2,
+            letterSpacing: 1.5,
             color: Colors.white.withValues(alpha: 0.4),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
         Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: project.techStack.map((tech) {
+          spacing: isWide ? 8 : 6,
+          runSpacing: isWide ? 8 : 6,
+          children: (isWide ? project.techStack : project.techStack.take(4)).map((tech) {
             return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(
+                horizontal: isWide ? 12 : 8,
+                vertical: isWide ? 6 : 4,
+              ),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(8),
@@ -187,8 +192,8 @@ class ProjectCard extends StatelessWidget {
               ),
               child: Text(
                 '#$tech',
-                style: const TextStyle(
-                  fontSize: 12,
+                style: TextStyle(
+                  fontSize: isWide ? 12 : 10,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -196,32 +201,32 @@ class ProjectCard extends StatelessWidget {
             );
           }).toList(),
         ),
-        const SizedBox(height: 22),
+        SizedBox(height: isWide ? 22 : 10),
 
         // Key Features / Highlights
         if (project.highlights.isNotEmpty) ...[
           Text(
             'KEY FEATURES',
             style: TextStyle(
-              fontSize: 10,
+              fontSize: isWide ? 10 : 9,
               fontWeight: FontWeight.w800,
-              letterSpacing: 2,
+              letterSpacing: 1.5,
               color: Colors.white.withValues(alpha: 0.4),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 6),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: project.highlights.map((h) {
+            children: (isWide ? project.highlights : project.highlights.take(2)).map((h) {
               return Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.only(bottom: 4),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '✓ ',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: isWide ? 14 : 12,
                         fontWeight: FontWeight.w900,
                         color: _accent == AppTheme.neon ? AppTheme.neon : _accent,
                       ),
@@ -229,11 +234,13 @@ class ProjectCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         h,
+                        maxLines: isWide ? null : 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: isWide ? 13 : 11,
                           fontWeight: FontWeight.w500,
                           color: Colors.white.withValues(alpha: 0.9),
-                          height: 1.4,
+                          height: 1.3,
                         ),
                       ),
                     ),
@@ -245,10 +252,10 @@ class ProjectCard extends StatelessWidget {
         ],
 
         // Action Buttons: [ VIEW PROJECT ↗ ]
-        const SizedBox(height: 28),
+        SizedBox(height: isWide ? 28 : 12),
         Wrap(
-          spacing: 14,
-          runSpacing: 10,
+          spacing: isWide ? 14 : 8,
+          runSpacing: isWide ? 10 : 6,
           children: [
             if (project.websiteUrl != null)
               _UniverseActionButton(
@@ -311,15 +318,15 @@ class ProjectCard extends StatelessWidget {
 
           // Project-Specific Hero Visual Environment
           if (isPadel)
-            _buildPadelSmartwatchScene()
+            _buildPadelSmartwatchScene(context)
           else if (isAstrology)
-            _buildAstrologyDualPhoneScene()
+            _buildAstrologyDualPhoneScene(context)
           else if (isDelivery)
-            _buildDeliveryMapScene()
+            _buildDeliveryMapScene(context)
           else if (isZofanso)
-            _buildZofansoGroceryScene()
+            _buildZofansoGroceryScene(context)
           else
-            _buildErizoCommerceScene(),
+            _buildErizoCommerceScene(context),
 
           // Floating Glass Badge: ⚡ SHIPPED TO PRODUCTION
           Positioned(
@@ -362,7 +369,7 @@ class ProjectCard extends StatelessWidget {
   }
 
   /// PROJECT 01: Erizo Multivendor Commerce Scene (3-Image 3D Stack)
-  Widget _buildErizoCommerceScene() {
+  Widget _buildErizoCommerceScene(BuildContext context) {
     final cover = project.coverImage ?? 'assets/images/erizo_portfolio_banner.png';
     final extras = project.additionalImages ?? [
       'assets/images/erizo_promo.png',
@@ -370,6 +377,7 @@ class ProjectCard extends StatelessWidget {
     ];
 
     return _buildThreeImageShowcase(
+      context,
       mainCover: cover,
       extraImages: extras,
       accentColor: _accent,
@@ -379,7 +387,7 @@ class ProjectCard extends StatelessWidget {
   }
 
   /// PROJECT 02: Zofanso Food & Grocery Scene (3-Image 3D Stack)
-  Widget _buildZofansoGroceryScene() {
+  Widget _buildZofansoGroceryScene(BuildContext context) {
     final cover = project.coverImage ?? 'assets/images/zofanso_portfolio_banner.png';
     final extras = project.additionalImages ?? [
       'assets/images/zofanso_play_store.png',
@@ -387,6 +395,7 @@ class ProjectCard extends StatelessWidget {
     ];
 
     return _buildThreeImageShowcase(
+      context,
       mainCover: cover,
       extraImages: extras,
       accentColor: AppTheme.neon,
@@ -396,13 +405,15 @@ class ProjectCard extends StatelessWidget {
   }
 
   /// Helper: Reusable 3-Image 3D Perspective Smartphone Stack Showcase
-  Widget _buildThreeImageShowcase({
+  Widget _buildThreeImageShowcase(
+    BuildContext context, {
     required String? mainCover,
     required List<String> extraImages,
     required Color accentColor,
     required String tagLabel,
     required IconData tagIcon,
   }) {
+    final isMobile = MediaQuery.sizeOf(context).width < 900;
     final imgLeft = extraImages.isNotEmpty ? extraImages[0] : mainCover;
     final imgRight = extraImages.length > 1 ? extraImages[1] : (extraImages.isNotEmpty ? extraImages[0] : mainCover);
     final imgCenter = mainCover ?? (extraImages.isNotEmpty ? extraImages[0] : null);
@@ -413,8 +424,8 @@ class ProjectCard extends StatelessWidget {
         // 1. LEFT PHONE MOCKUP (Background Left Layer, rotated -12deg)
         if (imgLeft != null)
           Positioned(
-            left: 18,
-            top: 40,
+            left: isMobile ? 12 : 18,
+            top: isMobile ? 28 : 40,
             child: Transform(
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.001)
@@ -423,8 +434,8 @@ class ProjectCard extends StatelessWidget {
                 ..scale(0.85),
               alignment: Alignment.center,
               child: Container(
-                width: 140,
-                height: 230,
+                width: isMobile ? 125 : 140,
+                height: isMobile ? 205 : 230,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(24),
@@ -434,10 +445,6 @@ class ProjectCard extends StatelessWidget {
                       color: Colors.black.withValues(alpha: 0.7),
                       blurRadius: 25,
                       offset: const Offset(-8, 12),
-                    ),
-                    BoxShadow(
-                      color: accentColor.withValues(alpha: 0.2),
-                      blurRadius: 25,
                     ),
                   ],
                 ),
@@ -454,8 +461,8 @@ class ProjectCard extends StatelessWidget {
         // 2. RIGHT PHONE MOCKUP (Background Right Layer, rotated +12deg)
         if (imgRight != null)
           Positioned(
-            right: 18,
-            top: 40,
+            right: isMobile ? 12 : 18,
+            top: isMobile ? 28 : 40,
             child: Transform(
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.001)
@@ -464,8 +471,8 @@ class ProjectCard extends StatelessWidget {
                 ..scale(0.85),
               alignment: Alignment.center,
               child: Container(
-                width: 140,
-                height: 230,
+                width: isMobile ? 125 : 140,
+                height: isMobile ? 205 : 230,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(24),
@@ -475,10 +482,6 @@ class ProjectCard extends StatelessWidget {
                       color: Colors.black.withValues(alpha: 0.7),
                       blurRadius: 25,
                       offset: const Offset(8, 12),
-                    ),
-                    BoxShadow(
-                      color: accentColor.withValues(alpha: 0.2),
-                      blurRadius: 25,
                     ),
                   ],
                 ),
@@ -495,8 +498,8 @@ class ProjectCard extends StatelessWidget {
         // 3. CENTER HERO PHONE MOCKUP (Foreground Main Device Object)
         if (imgCenter != null)
           Container(
-            width: 165,
-            height: 265,
+            width: isMobile ? 150 : 165,
+            height: isMobile ? 230 : 265,
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(28),
@@ -506,11 +509,6 @@ class ProjectCard extends StatelessWidget {
                   color: accentColor.withValues(alpha: 0.45),
                   blurRadius: 40,
                   spreadRadius: 2,
-                ),
-                const BoxShadow(
-                  color: Colors.black87,
-                  blurRadius: 35,
-                  offset: Offset(0, 16),
                 ),
               ],
             ),
@@ -546,20 +544,14 @@ class ProjectCard extends StatelessWidget {
 
         // 4. Floating Badge Tag
         Positioned(
-          top: 18,
-          right: 18,
+          top: isMobile ? 12 : 18,
+          right: isMobile ? 12 : 18,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
               color: Colors.black.withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: accentColor.withValues(alpha: 0.5)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.4),
-                  blurRadius: 10,
-                ),
-              ],
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -572,7 +564,6 @@ class ProjectCard extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 10,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
                   ),
                 ),
               ],
@@ -584,7 +575,8 @@ class ProjectCard extends StatelessWidget {
   }
 
   /// PROJECT 03: Erizo Delivery Map & Route Scene
-  Widget _buildDeliveryMapScene() {
+  Widget _buildDeliveryMapScene(BuildContext context) {
+    final isMobile = MediaQuery.sizeOf(context).width < 900;
     final cover = project.coverImage;
 
     return Stack(
@@ -592,26 +584,20 @@ class ProjectCard extends StatelessWidget {
       children: [
         // Visually extending Map Route Line behind phone
         CustomPaint(
-          size: const Size(260, 260),
+          size: Size(isMobile ? 220 : 260, isMobile ? 220 : 260),
           painter: _MapRouteLinePainter(color: AppTheme.cyan),
         ),
 
         // Floating Location Pin Marker extending outside phone
         Positioned(
-          top: 36,
-          left: 40,
+          top: isMobile ? 20 : 36,
+          left: isMobile ? 24 : 40,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(999),
               border: Border.all(color: AppTheme.cyan),
-              boxShadow: [
-                BoxShadow(
-                  color: AppTheme.cyan.withValues(alpha: 0.5),
-                  blurRadius: 12,
-                ),
-              ],
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -633,23 +619,12 @@ class ProjectCard extends StatelessWidget {
 
         // Main Smartphone Frame
         Container(
-          width: 175,
-          height: 270,
+          width: isMobile ? 150 : 175,
+          height: isMobile ? 230 : 270,
           decoration: BoxDecoration(
             color: Colors.black,
             borderRadius: BorderRadius.circular(28),
             border: Border.all(color: AppTheme.cyan, width: 3),
-            boxShadow: [
-              BoxShadow(
-                color: AppTheme.cyan.withValues(alpha: 0.35),
-                blurRadius: 35,
-              ),
-              const BoxShadow(
-                color: Colors.black87,
-                blurRadius: 40,
-                offset: Offset(0, 16),
-              ),
-            ],
           ),
           clipBehavior: Clip.antiAlias,
           child: cover != null
@@ -665,7 +640,8 @@ class ProjectCard extends StatelessWidget {
   }
 
   /// PROJECT 04: Padel Magic Wear OS Smartwatch Scene
-  Widget _buildPadelSmartwatchScene() {
+  Widget _buildPadelSmartwatchScene(BuildContext context) {
+    final isMobile = MediaQuery.sizeOf(context).width < 900;
     final cover = project.coverImage;
 
     return Stack(
@@ -673,8 +649,8 @@ class ProjectCard extends StatelessWidget {
       children: [
         // Floating Sport Pulse Rings around Watch
         Container(
-          width: 260,
-          height: 260,
+          width: isMobile ? 230 : 260,
+          height: isMobile ? 230 : 260,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -684,8 +660,8 @@ class ProjectCard extends StatelessWidget {
           ),
         ),
         Container(
-          width: 235,
-          height: 235,
+          width: isMobile ? 205 : 235,
+          height: isMobile ? 205 : 235,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -697,8 +673,8 @@ class ProjectCard extends StatelessWidget {
 
         // Watch Strap Background
         Container(
-          width: 70,
-          height: 300,
+          width: isMobile ? 65 : 70,
+          height: isMobile ? 240 : 300,
           decoration: BoxDecoration(
             color: const Color(0xFF141420),
             borderRadius: BorderRadius.circular(16),
@@ -708,23 +684,12 @@ class ProjectCard extends StatelessWidget {
 
         // Realistic Wear OS Circular Smartwatch Frame
         Container(
-          width: 200,
-          height: 200,
+          width: isMobile ? 185 : 200,
+          height: isMobile ? 185 : 200,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.black,
             border: Border.all(color: const Color(0xFFFF6D00), width: 4),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFFFF6D00).withValues(alpha: 0.5),
-                blurRadius: 40,
-              ),
-              const BoxShadow(
-                color: Colors.black87,
-                blurRadius: 30,
-                offset: Offset(0, 10),
-              ),
-            ],
           ),
           padding: const EdgeInsets.all(8),
           child: Container(
@@ -777,7 +742,8 @@ class ProjectCard extends StatelessWidget {
   }
 
   /// PROJECT 05: Astrology Dual Phone RTC Consultation Scene
-  Widget _buildAstrologyDualPhoneScene() {
+  Widget _buildAstrologyDualPhoneScene(BuildContext context) {
+    final isMobile = MediaQuery.sizeOf(context).width < 900;
     final cover = project.coverImage ?? 'assets/images/img-3.jpeg';
     final extra = (project.additionalImages?.isNotEmpty ?? false)
         ? project.additionalImages![0]
@@ -1008,6 +974,7 @@ class _UniverseActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isWide = MediaQuery.sizeOf(context).width >= 900;
     final isNeon = accentColor == AppTheme.neon;
     return Material(
       color: isNeon ? AppTheme.neon : Colors.white,
@@ -1018,14 +985,17 @@ class _UniverseActionButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: EdgeInsets.symmetric(
+            horizontal: isWide ? 20 : 12,
+            vertical: isWide ? 12 : 8,
+          ),
           child: Text(
             label,
             style: TextStyle(
               color: AppTheme.black,
               fontWeight: FontWeight.w900,
-              fontSize: 12,
-              letterSpacing: 1,
+              fontSize: isWide ? 12 : 10,
+              letterSpacing: 0.8,
             ),
           ),
         ),

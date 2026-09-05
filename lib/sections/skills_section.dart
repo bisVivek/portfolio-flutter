@@ -38,8 +38,8 @@ class _SkillsSectionState extends State<SkillsSection> {
       width: double.infinity,
       color: const Color(0xFF09090D),
       padding: EdgeInsets.symmetric(
-        horizontal: isWide ? 48 : (isMedium ? 32 : 20),
-        vertical: isWide ? 90 : 60,
+        horizontal: isWide ? 48 : (isMedium ? 32 : 16),
+        vertical: isWide ? 90 : (isMedium ? 60 : 36),
       ),
       child: Center(
         child: ConstrainedBox(
@@ -57,12 +57,12 @@ class _SkillsSectionState extends State<SkillsSection> {
                   dark: true,
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: isWide ? 24 : 16),
 
               // Overview Metric Badges
               Wrap(
-                spacing: 10,
-                runSpacing: 10,
+                spacing: isWide ? 10 : 8,
+                runSpacing: isWide ? 10 : 8,
                 children: [
                   _MetricBadge(
                     icon: Icons.flash_on_rounded,
@@ -86,7 +86,7 @@ class _SkillsSectionState extends State<SkillsSection> {
                   ),
                 ],
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: isWide ? 32 : 20),
 
               // Filter Tabs
               SingleChildScrollView(
@@ -113,7 +113,7 @@ class _SkillsSectionState extends State<SkillsSection> {
                 ),
               ),
 
-              const SizedBox(height: 32),
+              SizedBox(height: isWide ? 32 : 20),
 
               // Dynamic Skills Layout
               LayoutBuilder(
@@ -158,6 +158,35 @@ class _SkillsSectionState extends State<SkillsSection> {
       );
     }
 
+    if (columnCount == 1) {
+      return Column(
+        children: filteredCategories.asMap().entries.map((entry) {
+          final index = entry.key;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _MasterpieceSkillCard(
+              category: filteredCategories[index],
+              highlighted: index == 0 && _selectedCategory == 'ALL',
+              cardIndex: index,
+            )
+                .animate(key: ValueKey('skill_card_${_selectedCategory}_$index'))
+                .fadeIn(
+                  duration: 350.ms,
+                  delay: Duration(milliseconds: index * 40),
+                  curve: Curves.easeOutCubic,
+                )
+                .scale(
+                  begin: const Offset(0.95, 0.95),
+                  end: const Offset(1.0, 1.0),
+                  duration: 350.ms,
+                  delay: Duration(milliseconds: index * 40),
+                  curve: Curves.easeOutCubic,
+                ),
+          );
+        }).toList(),
+      );
+    }
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -165,9 +194,7 @@ class _SkillsSectionState extends State<SkillsSection> {
         crossAxisCount: columnCount,
         mainAxisSpacing: 20,
         crossAxisSpacing: 20,
-        childAspectRatio: columnCount == 3
-            ? 1.28
-            : (columnCount == 2 ? 1.38 : 1.55),
+        childAspectRatio: columnCount == 3 ? 1.28 : 1.38,
       ),
       itemCount: filteredCategories.length,
       itemBuilder: (context, index) => _MasterpieceSkillCard(
@@ -485,10 +512,12 @@ class _SpotlightSkillCategoryCardState
     final accent = _accentFor(category.title);
     final description = _descriptionFor(category.title);
 
+    final isMobile = MediaQuery.sizeOf(context).width < 700;
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       width: double.infinity,
-      padding: const EdgeInsets.all(28),
+      padding: EdgeInsets.all(isMobile ? 16 : 28),
       decoration: BoxDecoration(
         color: const Color(0xFF0E0E16),
         borderRadius: BorderRadius.circular(24),
@@ -667,6 +696,7 @@ class _MasterpieceSkillCardState extends State<_MasterpieceSkillCard> {
     final category = widget.category;
     final proficiency = _proficiencyFor(category.title);
     final accent = _accentFor(category.title);
+    final isMobile = MediaQuery.sizeOf(context).width < 700;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
@@ -677,7 +707,7 @@ class _MasterpieceSkillCardState extends State<_MasterpieceSkillCard> {
         curve: Curves.easeOutCubic,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(isMobile ? 14 : 20),
           decoration: BoxDecoration(
             color: _hovered
                 ? const Color(0xFF14141E)
@@ -750,12 +780,12 @@ class _MasterpieceSkillCardState extends State<_MasterpieceSkillCard> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: isMobile ? 10 : 16),
 
               // Skill Chips Grid
               Wrap(
-                spacing: 6,
-                runSpacing: 6,
+                spacing: isMobile ? 5 : 6,
+                runSpacing: isMobile ? 5 : 6,
                 children: category.skills.asMap().entries.map((entry) {
                   final skillIndex = entry.key;
                   final skill = entry.value;
@@ -809,10 +839,13 @@ class _CyberSkillPillState extends State<_CyberSkillPill> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.sizeOf(context).width < 700;
     final accent = widget.accentColor;
     final padding = widget.isLarge
         ? const EdgeInsets.symmetric(horizontal: 14, vertical: 8)
-        : const EdgeInsets.symmetric(horizontal: 10, vertical: 6);
+        : (isMobile
+            ? const EdgeInsets.symmetric(horizontal: 8, vertical: 5)
+            : const EdgeInsets.symmetric(horizontal: 10, vertical: 6));
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
@@ -848,7 +881,7 @@ class _CyberSkillPillState extends State<_CyberSkillPill> {
                 widget.skill,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: widget.isLarge ? 13 : 11,
+                  fontSize: widget.isLarge ? 13 : (isMobile ? 10.5 : 11),
                   fontWeight: FontWeight.w700,
                   color: _hovered
                       ? AppTheme.white

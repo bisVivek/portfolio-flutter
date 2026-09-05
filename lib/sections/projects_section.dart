@@ -96,8 +96,8 @@ class _ProjectsSectionState extends State<ProjectsSection> {
       width: double.infinity,
       color: Colors.white,
       padding: EdgeInsets.symmetric(
-        horizontal: isWide ? 48 : 20,
-        vertical: isWide ? 90 : 60,
+        horizontal: isWide ? 48 : 16,
+        vertical: isWide ? 90 : 36,
       ),
       child: Center(
         child: ConstrainedBox(
@@ -193,7 +193,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                   ],
                 ),
               ),
-              const SizedBox(height: 56),
+              SizedBox(height: isWide ? 56 : 28),
 
               // ==================================================
               // SECTION 02 — LIVE IN PRODUCTION (PROJECT STRIP)
@@ -331,13 +331,13 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                   ],
                 ),
               ),
-              const SizedBox(height: 64),
+              SizedBox(height: isWide ? 64 : 28),
 
               // ==================================================
               // SECTION 03 — APP DEMOS (3D SMARTPHONE SHOWCASE)
               // ==================================================
               const WorkShowcase(),
-              const SizedBox(height: 64),
+              SizedBox(height: isWide ? 64 : 28),
 
               // ==================================================
               // SECTION 04 — PROJECT SLIDER (ONE-BY-ONE CAROUSEL)
@@ -390,7 +390,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                       children: [
                         Expanded(
                           child: SizedBox(
-                            height: isWide ? 510 : 720,
+                            height: isWide ? 510 : 536,
                             child: PageView.builder(
                               controller: _projectsPageController,
                               onPageChanged: _onPageChanged,
@@ -414,7 +414,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                       ],
                     ),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: isWide ? 32 : 14),
 
                     // ==================================================
                     // BOTTOM NAVIGATION & PROGRESS INDICATOR
