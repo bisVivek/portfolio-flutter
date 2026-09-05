@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';
+import 'screens/home_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -30,8 +30,9 @@ class PortfolioApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
       scrollBehavior: const AppScrollBehavior(),
-      home: const SplashScreen(),
+      home: const HomeScreen(),
     );
   }
 }
+
 
