@@ -23,28 +23,72 @@ class _TestimonialCardState extends State<TestimonialCard> {
     final images = testimonial.imageAssets;
 
     return HoverCard(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 64),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppTheme.border),
+          boxShadow: [
+            BoxShadow(
+              color: testimonial.accentColor.withValues(alpha: 0.08),
+              blurRadius: 24,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (isWide)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(flex: 5, child: _buildQuote(testimonial)),
-                  const SizedBox(width: 64),
-                  Expanded(flex: 4, child: _buildImagePanel(images)),
-                ],
-              )
-            else ...[
-              _buildImagePanel(images, height: 240),
-              const SizedBox(height: 32),
-              _buildQuote(testimonial),
-            ],
-            const SizedBox(height: 32),
-            _buildStats(testimonial),
-            const Divider(color: AppTheme.border),
+            // Top accent indicator bar
+            Container(
+              height: 4,
+              width: double.infinity,
+              color: testimonial.accentColor,
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(isWide ? 36 : 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: isWide
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 5,
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: _buildQuote(testimonial),
+                                  ),
+                                ),
+                                const SizedBox(width: 40),
+                                Expanded(
+                                  flex: 4,
+                                  child: _buildImagePanel(images),
+                                ),
+                              ],
+                            )
+                          : SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildImagePanel(images, height: 200),
+                                  const SizedBox(height: 20),
+                                  _buildQuote(testimonial),
+                                ],
+                              ),
+                            ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildStats(testimonial),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -55,28 +99,47 @@ class _TestimonialCardState extends State<TestimonialCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          testimonial.projectName,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontSize: 20,
-                color: testimonial.accentColor,
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              decoration: BoxDecoration(
+                color: testimonial.accentColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(999),
               ),
+              child: Text(
+                testimonial.projectName,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: testimonial.accentColor,
+                    ),
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              Icons.format_quote_rounded,
+              size: 32,
+              color: testimonial.accentColor.withValues(alpha: 0.25),
+            ),
+          ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 14),
         Text(
           '"${testimonial.quote}"',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 22,
+                fontSize: 16,
                 height: 1.55,
                 color: AppTheme.textPrimary,
                 fontWeight: FontWeight.w400,
               ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 18),
         Text(
           testimonial.author,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontSize: 16,
+                fontWeight: FontWeight.w700,
               ),
         ),
         Text(
@@ -86,9 +149,10 @@ class _TestimonialCardState extends State<TestimonialCard> {
                 fontSize: 13,
               ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 16),
         Wrap(
           spacing: 12,
+          runSpacing: 8,
           children: [
             if (testimonial.websiteUrl != null)
               _ActionLink(
@@ -107,31 +171,26 @@ class _TestimonialCardState extends State<TestimonialCard> {
   }
 
   Widget _buildStats(Testimonial testimonial) {
-    return Row(
-      children: testimonial.stats.asMap().entries.map((entry) {
-        final isLast = entry.key == testimonial.stats.length - 1;
-        return Expanded(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            decoration: BoxDecoration(
-              border: Border(
-                right: isLast
-                    ? BorderSide.none
-                    : const BorderSide(color: AppTheme.border),
-              ),
+    return Wrap(
+      spacing: 10,
+      runSpacing: 10,
+      children: testimonial.stats.map((stat) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: testimonial.accentColor.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: testimonial.accentColor.withValues(alpha: 0.25),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.value,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
+          ),
+          child: Text(
+            stat,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.textPrimary,
+                  fontSize: 13,
                 ),
-              ],
-            ),
           ),
         );
       }).toList(),
@@ -142,7 +201,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
-        height: height ?? 320,
+        height: height ?? double.infinity,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -164,7 +223,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
             ),
             if (images.length > 1) ...[
               Positioned(
-                left: 12,
+                left: 10,
                 top: 0,
                 bottom: 0,
                 child: Center(
@@ -178,7 +237,7 @@ class _TestimonialCardState extends State<TestimonialCard> {
                 ),
               ),
               Positioned(
-                right: 12,
+                right: 10,
                 top: 0,
                 bottom: 0,
                 child: Center(
@@ -215,7 +274,7 @@ class _ActionLink extends StatelessWidget {
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   decoration: TextDecoration.underline,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
           ),
           const SizedBox(width: 4),
@@ -235,16 +294,17 @@ class _NavButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.black45,
+      color: Colors.black54,
       borderRadius: BorderRadius.circular(999),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
         child: Padding(
           padding: const EdgeInsets.all(6),
-          child: Icon(icon, color: Colors.white, size: 22),
+          child: Icon(icon, color: Colors.white, size: 20),
         ),
       ),
     );
   }
 }
+
