@@ -120,11 +120,20 @@ class PortfolioData {
         'Android & iOS & Wear OS',
         'REST API Integration',
         'Firebase',
+        'CI/CD Pipeline',
       ],
     ),
     SkillCategory(
       title: 'State Management',
       skills: ['Provider', 'GetX', 'Riverpod (familiar)'],
+    ),
+    SkillCategory(
+      title: 'Backend & Languages',
+      skills: [
+        'Java',
+        'Spring Boot',
+        'REST API Development',
+      ],
     ),
     SkillCategory(
       title: 'Integrations',
@@ -142,15 +151,12 @@ class PortfolioData {
         'Google Play Store',
         'Apple App Store',
         'Production Release Management',
+        'CI/CD Deployment',
       ],
     ),
     SkillCategory(
       title: 'Tools',
-      skills: ['Git', 'GitHub', 'Android Studio', 'VS Code', 'Postman'],
-    ),
-    SkillCategory(
-      title: 'Other',
-      skills: ['Java'],
+      skills: ['Git', 'GitHub', 'CI/CD', 'Android Studio', 'VS Code', 'Postman'],
     ),
   ];
 

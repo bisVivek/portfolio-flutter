@@ -276,7 +276,7 @@ class _TechStackShowcaseState extends State<_TechStackShowcase>
             Transform.translate(
               offset: Offset(0, float1),
               child: const _CyberTechChip(
-                icon: Icons.flutter_dash,
+                leadingWidget: FlutterLogo(size: 24),
                 title: 'FLUTTER & DART',
                 subtitle: 'Android · iOS · Web · Wear OS',
                 accentColor: Color(0xFF40C4FF),
@@ -287,7 +287,7 @@ class _TechStackShowcaseState extends State<_TechStackShowcase>
             Transform.translate(
               offset: Offset(0, float2),
               child: const _CyberTechChip(
-                icon: Icons.local_fire_department_rounded,
+                leadingWidget: _FirebaseFlameLogo(size: 24),
                 title: 'FIREBASE & REST APIs',
                 subtitle: 'Firestore · Auth · FCM · REST',
                 accentColor: Color(0xFFFFCA28),
@@ -298,21 +298,29 @@ class _TechStackShowcaseState extends State<_TechStackShowcase>
             Transform.translate(
               offset: Offset(0, float3),
               child: const _CyberTechChip(
-                icon: Icons.phonelink_setup_rounded,
-                title: 'AGORA & TWILIO SDK',
-                subtitle: 'Audio/Video Consultations & Payments',
-                accentColor: AppTheme.neon,
-                badgeText: 'INTEGRATIONS',
+                leadingWidget: Icon(
+                  Icons.android,
+                  color: Color(0xFF3DDC84),
+                  size: 24,
+                ),
+                title: 'ANDROID & iOS & WEAR OS',
+                subtitle: 'Cross-Platform Native Deployment',
+                accentColor: Color(0xFF3DDC84),
+                badgeText: 'MOBILE & WEARABLE',
               ),
             ),
             const SizedBox(height: 14),
             Transform.translate(
               offset: Offset(0, float4),
               child: const _CyberTechChip(
-                icon: Icons.verified_outlined,
+                leadingWidget: Icon(
+                  Icons.shop_two_rounded,
+                  color: AppTheme.neon,
+                  size: 24,
+                ),
                 title: '150+ PLAY STORE APPS',
                 subtitle: '50+ Apple App Store Production Releases',
-                accentColor: AppTheme.purple,
+                accentColor: AppTheme.neon,
                 badgeText: 'SHIPPED APPS',
               ),
             ),
@@ -325,14 +333,16 @@ class _TechStackShowcaseState extends State<_TechStackShowcase>
 
 class _CyberTechChip extends StatefulWidget {
   const _CyberTechChip({
-    required this.icon,
+    this.icon,
+    this.leadingWidget,
     required this.title,
     required this.subtitle,
     required this.accentColor,
     required this.badgeText,
   });
 
-  final IconData icon;
+  final IconData? icon;
+  final Widget? leadingWidget;
   final String title;
   final String subtitle;
   final Color accentColor;
@@ -357,13 +367,13 @@ class _CyberTechChipState extends State<_CyberTechChip> {
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
         decoration: BoxDecoration(
           color: _hovered
-              ? AppTheme.black.withValues(alpha: 0.85)
-              : AppTheme.black.withValues(alpha: 0.6),
+              ? AppTheme.black.withValues(alpha: 0.88)
+              : AppTheme.black.withValues(alpha: 0.65),
           borderRadius: BorderRadius.circular(22),
           border: Border.all(
             color: _hovered
                 ? widget.accentColor
-                : widget.accentColor.withValues(alpha: 0.4),
+                : widget.accentColor.withValues(alpha: 0.45),
             width: _hovered ? 1.8 : 1.2,
           ),
           boxShadow: [
@@ -391,11 +401,12 @@ class _CyberTechChipState extends State<_CyberTechChip> {
                   color: widget.accentColor.withValues(alpha: 0.6),
                 ),
               ),
-              child: Icon(
-                widget.icon,
-                color: widget.accentColor,
-                size: 22,
-              ),
+              child: widget.leadingWidget ??
+                  Icon(
+                    widget.icon ?? Icons.code,
+                    color: widget.accentColor,
+                    size: 22,
+                  ),
             ),
             const SizedBox(width: 14),
             Column(
@@ -455,6 +466,68 @@ class _CyberTechChipState extends State<_CyberTechChip> {
       ),
     );
   }
+}
+
+/// Official 3D-styled Firebase Flame Logo Painter
+class _FirebaseFlameLogo extends StatelessWidget {
+  const _FirebaseFlameLogo({this.size = 24});
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(
+        painter: _FirebaseFlamePainter(),
+      ),
+    );
+  }
+}
+
+class _FirebaseFlamePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+
+    // Facet 1: Amber Left Flame Facet
+    final path1 = Path()
+      ..moveTo(w * 0.12, h * 0.78)
+      ..lineTo(w * 0.48, h * 0.08)
+      ..lineTo(w * 0.68, h * 0.48)
+      ..close();
+    canvas.drawPath(
+      path1,
+      Paint()..color = const Color(0xFFFFA000),
+    );
+
+    // Facet 2: Bright Yellow Right Flame Facet
+    final path2 = Path()
+      ..moveTo(w * 0.88, h * 0.78)
+      ..lineTo(w * 0.48, h * 0.08)
+      ..lineTo(w * 0.68, h * 0.48)
+      ..close();
+    canvas.drawPath(
+      path2,
+      Paint()..color = const Color(0xFFFFCA28),
+    );
+
+    // Facet 3: Orange Front Flame Facet
+    final path3 = Path()
+      ..moveTo(w * 0.12, h * 0.78)
+      ..lineTo(w * 0.5, h * 0.94)
+      ..lineTo(w * 0.88, h * 0.78)
+      ..lineTo(w * 0.58, h * 0.32)
+      ..close();
+    canvas.drawPath(
+      path3,
+      Paint()..color = const Color(0xFFF57C00),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class _SocialBtn extends StatelessWidget {
