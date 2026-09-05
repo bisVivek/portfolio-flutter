@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../data/portfolio_data.dart';
@@ -20,15 +21,15 @@ class HeroSection extends StatelessWidget {
         width: double.infinity,
         child: Stack(
           children: [
-            // Ambient Background Video (pvb.mp4) without control buttons
+            // Bright Ambient Background Video (pvb.mp4) without blackish darkening
             const Positioned.fill(
               child: BackgroundVideo(
                 assetPath: 'assets/videoes/pvb.mp4',
-                overlayOpacity: 0.48,
+                overlayOpacity: 0.15,
                 showControls: false,
               ),
             ),
-            // Hero Content Overlay (No right photo box)
+            // Hero Content Overlay (Direct text overlay over video background)
             Container(
               width: double.infinity,
               padding: EdgeInsets.fromLTRB(
@@ -72,12 +73,54 @@ class _HeroContent extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          'BUILDING APPS\nWITH 🔥 PASSION',
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'BUILDING ',
+                style: TextStyle(
+                  color: AppTheme.black,
+                  shadows: [
+                    Shadow(
+                      color: Colors.white.withValues(alpha: 0.9),
+                      blurRadius: 12,
+                    ),
+                  ],
+                ),
+              ),
+              TextSpan(
+                text: 'APPS\n',
+                style: TextStyle(
+                  color: AppTheme.white,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black.withValues(alpha: 0.95),
+                      blurRadius: 16,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+              ),
+              TextSpan(
+                text: 'WITH 🔥 PASSION',
+                style: TextStyle(
+                  color: AppTheme.black,
+                  shadows: [
+                    Shadow(
+                      color: Colors.white.withValues(alpha: 0.9),
+                      blurRadius: 12,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: isWide ? 64 : 40,
-                color: AppTheme.white,
+                fontSize: isWide ? 64 : 38,
+                fontWeight: FontWeight.w900,
+                height: 1.1,
               ),
         )
             .animate()
@@ -88,17 +131,36 @@ class _HeroContent extends StatelessWidget {
           PortfolioData.title,
           style: TextStyle(
             color: AppTheme.neon,
-            fontSize: isWide ? 18 : 15,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 2,
+            fontSize: isWide ? 28 : 22,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 3.0,
+            shadows: [
+              Shadow(
+                color: Colors.black.withValues(alpha: 0.95),
+                blurRadius: 14,
+                offset: const Offset(0, 2),
+              ),
+              const Shadow(
+                color: Colors.black,
+                blurRadius: 24,
+              ),
+            ],
           ),
         ).animate().fadeIn(duration: 800.ms, delay: 100.ms),
         const SizedBox(height: 16),
         Text(
           'Hi, I\'m ${PortfolioData.name}. ${PortfolioData.summary.split('.').first}.',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppTheme.white.withValues(alpha: 0.7),
-                fontSize: isWide ? 17 : 15,
+                color: AppTheme.black,
+                fontSize: isWide ? 20 : 17,
+                fontWeight: FontWeight.w900,
+                fontStyle: FontStyle.italic,
+                shadows: [
+                  Shadow(
+                    color: Colors.white.withValues(alpha: 0.85),
+                    blurRadius: 10,
+                  ),
+                ],
               ),
         ).animate().fadeIn(duration: 800.ms, delay: 200.ms),
         const SizedBox(height: 36),
@@ -116,8 +178,9 @@ class _HeroContent extends StatelessWidget {
               label: const Text('MY WORK'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppTheme.white,
-                side: BorderSide(color: AppTheme.white.withValues(alpha: 0.35)),
+                side: BorderSide(color: AppTheme.white.withValues(alpha: 0.6)),
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                backgroundColor: AppTheme.black.withValues(alpha: 0.3),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(999),
                 ),
@@ -149,6 +212,8 @@ class _HeroContent extends StatelessWidget {
   }
 }
 
+
+
 class _SocialBtn extends StatelessWidget {
   const _SocialBtn({required this.icon, required this.onTap});
 
@@ -164,8 +229,9 @@ class _SocialBtn extends StatelessWidget {
         width: 44,
         height: 44,
         decoration: BoxDecoration(
+          color: AppTheme.black.withValues(alpha: 0.4),
           shape: BoxShape.circle,
-          border: Border.all(color: AppTheme.white.withValues(alpha: 0.25)),
+          border: Border.all(color: AppTheme.white.withValues(alpha: 0.4)),
         ),
         child: Icon(icon, color: AppTheme.white, size: 20),
       ),

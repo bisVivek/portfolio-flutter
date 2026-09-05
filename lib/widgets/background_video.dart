@@ -102,34 +102,21 @@ class _BackgroundVideoState extends State<BackgroundVideo> {
             color: AppTheme.black,
           ),
 
-        // Dark ambient overlay gradient for maximum text contrast
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                AppTheme.black.withValues(alpha: widget.overlayOpacity + 0.15),
-                AppTheme.black.withValues(alpha: widget.overlayOpacity),
-                AppTheme.black.withValues(alpha: widget.overlayOpacity + 0.25),
-              ],
+        // Subtle light ambient overlay for crisp video visibility
+        if (widget.overlayOpacity > 0)
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppTheme.black.withValues(alpha: widget.overlayOpacity * 0.5),
+                  AppTheme.black.withValues(alpha: widget.overlayOpacity * 0.3),
+                  AppTheme.black.withValues(alpha: widget.overlayOpacity * 0.6),
+                ],
+              ),
             ),
           ),
-        ),
-
-        // Radial Vignette Overlay for dark cinematic style
-        Container(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment.center,
-              radius: 1.2,
-              colors: [
-                Colors.transparent,
-                AppTheme.black.withValues(alpha: 0.7),
-              ],
-            ),
-          ),
-        ),
 
         // Optional Child Widget on top of video background
         if (widget.child != null) widget.child!,
