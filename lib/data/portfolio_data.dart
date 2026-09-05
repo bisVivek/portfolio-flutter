@@ -34,6 +34,13 @@ class PortfolioData {
 
   static const List<MediaAsset> workMedia = [
     MediaAsset(
+      path: 'assets/videoes/pvb.mp4',
+      type: MediaType.video,
+      title: 'Featured Reel',
+      subtitle: 'Portfolio background & video showcase',
+      projectTag: 'Portfolio',
+    ),
+    MediaAsset(
       path: 'assets/videoes/vid-1.mp4',
       type: MediaType.video,
       title: 'App Demo',

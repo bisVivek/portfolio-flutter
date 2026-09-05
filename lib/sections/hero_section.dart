@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../data/portfolio_data.dart';
 import '../theme/app_theme.dart';
 import '../utils/url_helper.dart';
+import '../widgets/background_video.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key, this.onExploreWork, this.onContact});
@@ -14,35 +15,45 @@ class HeroSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final isWide = MediaQuery.sizeOf(context).width >= 900;
 
-    return Container(
-      width: double.infinity,
-      color: AppTheme.black,
-      padding: EdgeInsets.fromLTRB(
-        isWide ? 48 : 24,
-        isWide ? 48 : 32,
-        isWide ? 48 : 24,
-        isWide ? 80 : 48,
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: isWide
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(child: _HeroContent(onExploreWork: onExploreWork, onContact: onContact)),
-                    const SizedBox(width: 48),
-                    Expanded(child: _HeroPhoto(isWide: true)),
-                  ],
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _HeroContent(onExploreWork: onExploreWork, onContact: onContact),
-                    const SizedBox(height: 40),
-                    _HeroPhoto(isWide: false),
-                  ],
+    return ClipRect(
+      child: SizedBox(
+        width: double.infinity,
+        child: Stack(
+          children: [
+            // Ambient Background Video (pvb.mp4) without control buttons
+            const Positioned.fill(
+              child: BackgroundVideo(
+                assetPath: 'assets/videoes/pvb.mp4',
+                overlayOpacity: 0.48,
+                showControls: false,
+              ),
+            ),
+            // Hero Content Overlay (No right photo box)
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.fromLTRB(
+                isWide ? 64 : 24,
+                isWide ? 72 : 48,
+                isWide ? 64 : 24,
+                isWide ? 96 : 56,
+              ),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 1200),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 800),
+                      child: _HeroContent(
+                        onExploreWork: onExploreWork,
+                        onContact: onContact,
+                      ),
+                    ),
+                  ),
                 ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -135,78 +146,6 @@ class _HeroContent extends StatelessWidget {
         ).animate().fadeIn(duration: 800.ms, delay: 400.ms),
       ],
     );
-  }
-}
-
-class _HeroPhoto extends StatelessWidget {
-  const _HeroPhoto({required this.isWide});
-
-  final bool isWide;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: isWide ? 480 : 360,
-      decoration: BoxDecoration(
-        color: AppTheme.purple,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 24),
-            child: Image.asset(
-              PortfolioData.profilePhoto,
-              fit: BoxFit.cover,
-              alignment: Alignment.topCenter,
-              errorBuilder: (_, __, ___) => const Center(
-                child: Icon(Icons.person, size: 80, color: Colors.white54),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 24,
-            left: 24,
-            right: 24,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: AppTheme.black.withValues(alpha: 0.6),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: const BoxDecoration(
-                      color: AppTheme.neon,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      '${PortfolioData.name} · ${PortfolioData.title}',
-                      style: const TextStyle(
-                        color: AppTheme.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    )
-        .animate()
-        .fadeIn(duration: 1000.ms, delay: 200.ms)
-        .slideX(begin: 0.08, end: 0, delay: 200.ms);
   }
 }
 
